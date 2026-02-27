@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "drizzle-kit push && next start",
+    "build": "drizzle-kit push && next build",
+    "start": "next start",
     "lint": "eslint src/",
     "type-check": "tsc --noEmit",
     "test": "vitest run",

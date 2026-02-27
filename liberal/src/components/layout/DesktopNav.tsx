@@ -33,9 +33,15 @@ export default function DesktopNav() {
     <header className="hidden md:flex sticky top-0 z-50 h-16 items-center justify-between border-b border-border-default bg-surface-primary/80 backdrop-blur-sm px-6">
       <Link
         href="/feed/hot"
-        className="font-display text-chainsaw-red font-bold text-xl"
+        className="flex flex-col leading-none"
+        aria-label="C'est Nicolas qui paye - accueil"
       >
-        NICOLAS PAYE
+        <span className="font-display text-xs font-semibold uppercase tracking-widest text-text-muted">
+          C&apos;est
+        </span>
+        <span className="font-display text-lg font-black uppercase tracking-tight text-chainsaw-red">
+          Nicolas qui paye
+        </span>
       </Link>
 
       <nav className="flex items-center gap-6">
@@ -43,11 +49,10 @@ export default function DesktopNav() {
           <Link
             key={link.href}
             href={link.href}
-            className={`text-sm font-medium transition-colors hover:text-chainsaw-red ${
-              pathname?.startsWith(link.href)
+            className={`text-sm font-medium transition-colors hover:text-chainsaw-red ${pathname?.startsWith(link.href)
                 ? 'text-chainsaw-red'
                 : 'text-text-secondary'
-            }`}
+              }`}
           >
             {link.label}
           </Link>

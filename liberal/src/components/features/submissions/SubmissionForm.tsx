@@ -10,7 +10,7 @@ import {
   type SubmissionFormData,
 } from '@/lib/utils/validation';
 import { isTweetUrl } from '@/lib/utils/tweet-detector';
-import { Loader2 } from 'lucide-react';
+import { Loader2, ShieldCheck, BookOpen } from 'lucide-react';
 
 export default function SubmissionForm() {
   const router = useRouter();
@@ -103,6 +103,21 @@ export default function SubmissionForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+
+      {/* Sourcing callout banner */}
+      <div className="flex items-start gap-3 rounded-lg border border-info/30 bg-info/5 p-4">
+        <ShieldCheck className="mt-0.5 size-5 shrink-0 text-info" aria-hidden="true" />
+        <div className="text-sm text-text-secondary">
+          <p className="font-semibold text-info">Plateforme éducative &amp; sourcée</p>
+          <p className="mt-1">
+            Chaque dépense publiée doit être documentée par une{' '}
+            <strong className="text-text-primary">source officielle vérifiable</strong>{' '}
+            (rapport parlementaire, Cour des comptes, document budgétaire, presse sérieuse).
+            Sans source, votre signalement ne sera pas publié.
+          </p>
+        </div>
+      </div>
+
       {/* Title */}
       <div>
         <label
@@ -222,17 +237,20 @@ export default function SubmissionForm() {
           htmlFor="sourceUrl"
           className="mb-2 block font-display font-medium text-text-primary"
         >
-          Lien source <span className="text-chainsaw-red">*</span>
+          <span className="flex items-center gap-2">
+            <BookOpen className="size-4 text-info" aria-hidden="true" />
+            Lien source officielle <span className="text-chainsaw-red">*</span>
+          </span>
         </label>
         <Input
           id="sourceUrl"
           type="url"
-          placeholder="https://www.lemonde.fr/..."
+          placeholder="https://www.assemblee-nationale.fr/ ou https://www.ccomptes.fr/..."
           value={formData.sourceUrl}
           onChange={(e) => handleChange('sourceUrl', e.target.value)}
           aria-required="true"
           aria-invalid={!!errors.sourceUrl}
-          aria-describedby={errors.sourceUrl ? 'source-error' : undefined}
+          aria-describedby={errors.sourceUrl ? 'source-error' : 'source-hint'}
         />
         {errors.sourceUrl && (
           <p
@@ -243,9 +261,13 @@ export default function SubmissionForm() {
             {errors.sourceUrl}
           </p>
         )}
+        <p id="source-hint" className="mt-1.5 text-xs text-text-muted">
+          Sources acceptées : Sénat, Assemblée nationale, Cour des comptes, INSEE, PLF/PLR,
+          Légifrance, ou articles de presse sérieuse avec lien direct.
+        </p>
         {tweetDetected && (
           <p className="mt-1 text-sm text-info">
-            Tweet detecte - un apercu sera affiche avec votre soumission.
+            Tweet détecté — un aperçu sera affiché avec votre soumission.
           </p>
         )}
       </div>

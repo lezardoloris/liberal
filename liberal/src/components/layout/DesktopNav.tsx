@@ -93,7 +93,7 @@ export default function DesktopNav() {
         </DropdownMenu>
       ) : (
         <Button variant="outline" size="sm" asChild>
-          <Link href="/auth/login">Se connecter</Link>
+          <Link href="/login">Se connecter</Link>
         </Button>
       )}
     </header>

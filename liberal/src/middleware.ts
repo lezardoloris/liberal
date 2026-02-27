@@ -13,15 +13,15 @@ export default auth((req) => {
 
   // Protected routes -- require authentication
   if (pathname.startsWith('/submit') && !isAuthenticated) {
-    return NextResponse.redirect(new URL('/auth/login', req.url));
+    return NextResponse.redirect(new URL('/login', req.url));
   }
 
   if (pathname === '/profile' && !isAuthenticated) {
-    return NextResponse.redirect(new URL('/auth/login', req.url));
+    return NextResponse.redirect(new URL('/login', req.url));
   }
 
   if (pathname.startsWith('/profile/settings') && !isAuthenticated) {
-    return NextResponse.redirect(new URL('/auth/login', req.url));
+    return NextResponse.redirect(new URL('/login', req.url));
   }
 
   return NextResponse.next();

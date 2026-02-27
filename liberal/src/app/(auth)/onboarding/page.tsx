@@ -21,7 +21,7 @@ export default async function OnboardingPage() {
   const session = await auth();
 
   if (!session?.user) {
-    redirect('/auth/login');
+    redirect('/login');
   }
 
   const user = await db.query.users.findFirst({
@@ -29,7 +29,7 @@ export default async function OnboardingPage() {
   });
 
   if (!user) {
-    redirect('/auth/login');
+    redirect('/login');
   }
 
   // If user already has a display name, redirect to feed

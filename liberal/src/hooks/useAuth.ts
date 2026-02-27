@@ -19,7 +19,7 @@ export function useSession() {
     // In production, this would open the LazyAuthGate modal
     // For now, redirect to login
     if (typeof window !== 'undefined') {
-      window.location.href = '/auth/login?callbackUrl=' + encodeURIComponent(window.location.pathname);
+      window.location.href = '/login?callbackUrl=' + encodeURIComponent(window.location.pathname);
     }
   }, []);
 

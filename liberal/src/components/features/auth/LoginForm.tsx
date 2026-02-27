@@ -160,7 +160,7 @@ export default function LoginForm() {
       <CardFooter className="justify-center">
         <p className="text-sm text-text-secondary">
           Pas encore de compte ?{' '}
-          <Link href="/auth/register" className="text-chainsaw-red hover:underline">
+          <Link href="/register" className="text-chainsaw-red hover:underline">
             Creer un compte
           </Link>
         </p>

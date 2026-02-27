@@ -16,7 +16,7 @@ export default async function ProfileSettingsPage() {
   const session = await auth();
 
   if (!session?.user) {
-    redirect('/auth/login');
+    redirect('/login');
   }
 
   const user = await db.query.users.findFirst({
@@ -24,7 +24,7 @@ export default async function ProfileSettingsPage() {
   });
 
   if (!user) {
-    redirect('/auth/login');
+    redirect('/login');
   }
 
   return (

@@ -194,7 +194,7 @@ export default function RegisterForm() {
       <CardFooter className="justify-center">
         <p className="text-sm text-text-secondary">
           Deja un compte ?{' '}
-          <Link href="/auth/login" className="text-chainsaw-red hover:underline">
+          <Link href="/login" className="text-chainsaw-red hover:underline">
             Se connecter
           </Link>
         </p>

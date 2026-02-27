@@ -15,13 +15,13 @@ export default async function ProfilePage() {
   const session = await auth();
 
   if (!session?.user) {
-    redirect('/auth/login');
+    redirect('/login');
   }
 
   const profile = await getUserProfile(session.user.id, true);
 
   if (!profile) {
-    redirect('/auth/login');
+    redirect('/login');
   }
 
   return (

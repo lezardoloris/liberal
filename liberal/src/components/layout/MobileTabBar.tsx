@@ -10,7 +10,7 @@ export default function MobileTabBar() {
   const { data: session, status } = useSession();
 
   const isAuthenticated = status === 'authenticated' && !!session?.user;
-  const profileHref = isAuthenticated ? '/profile' : '/auth/login';
+  const profileHref = isAuthenticated ? '/profile' : '/login';
 
   const tabs = [
     { href: '/feed/hot', label: 'Feed', icon: Home },

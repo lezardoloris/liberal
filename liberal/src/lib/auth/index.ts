@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
-import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import { db } from '@/lib/db';
 import { users } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
@@ -20,14 +19,16 @@ function generateAnonymousId(): string {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: DrizzleAdapter(db),
+  // ⚠️ NO DrizzleAdapter here — we manage users ourselves.
+  // DrizzleAdapter + JWT strategy + Credentials = "Bad request" error.
+  // Our custom signIn callback handles Google user creation manually.
   session: { strategy: 'jwt', maxAge: 30 * 24 * 60 * 60 }, // 30 days
+
   providers: [
     // ── Google OAuth ─────────────────────────────────────────────────
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      // Ask for profile + email
       authorization: {
         params: {
           prompt: 'select_account',
@@ -54,6 +55,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!user) return null;
         if (user.deletedAt) return null;
 
+        // Google-only accounts have no password → deny credential login
+        if (!user.passwordHash) return null;
+
         const passwordMatch = await bcrypt.compare(
           parsed.data.password,
           user.passwordHash,
@@ -64,6 +68,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: user.id,
           email: user.email,
           name: user.displayName ?? user.anonymousId,
+          // custom fields forwarded to JWT callback
           role: user.role,
           anonymousId: user.anonymousId,
           displayName: user.displayName,
@@ -73,7 +78,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
 
   callbacks: {
-    // ── Sign-in: auto-create user row for Google OAuth if needed ──────
+    // ── Sign-in: auto-create user row for Google OAuth ────────────────
     async signIn({ user, account }) {
       if (account?.provider === 'google' && user.email) {
         const existing = await db.query.users.findFirst({
@@ -81,30 +86,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
 
         if (!existing) {
-          // First Google login → create user row
+          // First Google login → materialise in our users table
           const anonymousId = generateAnonymousId();
-          const displayName = user.name ?? null;
-
           await db.insert(users).values({
             email: user.email,
-            passwordHash: '', // no password for OAuth users
+            passwordHash: '', // OAuth user — no password
             anonymousId,
-            displayName,
+            displayName: user.name ?? null,
             role: 'user',
           });
         } else if (existing.deletedAt) {
-          // Deleted account
-          return false;
+          return false; // banned/deleted account
         }
       }
       return true;
     },
 
-    // ── JWT: attach app-level fields ──────────────────────────────────
+    // ── JWT: embed DB user fields into the token ──────────────────────
     async jwt({ token, user, account, trigger, session }) {
-      // On first sign-in (any provider), fetch full user row
+      // user is only populated on the very first sign-in call
       if (user || account) {
-        const email = token.email ?? user?.email;
+        const email = (user?.email ?? token.email) as string | undefined;
         if (email) {
           const dbUser = await db.query.users.findFirst({
             where: eq(users.email, email),
@@ -118,20 +120,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
 
-      // Handle session update (e.g. display name change)
+      // Allow client-side session.update() to refresh display name
       if (trigger === 'update' && session) {
-        token.name = session.name;
-        token.displayName = session.displayName;
+        if (session.name) token.name = session.name;
+        if ('displayName' in session) token.displayName = session.displayName;
       }
 
       return token;
     },
 
+    // ── Session: expose token fields to the app ───────────────────────
     async session({ session, token }) {
       session.user.id = token.sub!;
-      session.user.role = token.role as string;
-      session.user.anonymousId = token.anonymousId as string;
-      session.user.displayName = token.displayName as string | null;
+      session.user.role = (token.role as string) ?? 'user';
+      session.user.anonymousId = (token.anonymousId as string) ?? '';
+      session.user.displayName = (token.displayName as string | null) ?? null;
       return session;
     },
   },
@@ -139,6 +142,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     signIn: '/login',
     newUser: '/register',
-    error: '/login',
+    error: '/login', // redirect /api/auth/error → /login with ?error=
   },
 });

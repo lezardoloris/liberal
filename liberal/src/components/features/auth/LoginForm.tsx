@@ -74,7 +74,10 @@ export default function LoginForm() {
       });
 
       if (result?.error) {
-        setFormError('Email ou mot de passe incorrect');
+        // Could be wrong password OR a Google-only account trying credentials
+        setFormError(
+          'Email ou mot de passe incorrect. Si vous avez créé votre compte via Google, utilisez le bouton « Continuer avec Google ».'
+        );
         setIsLoading(false);
         return;
       }

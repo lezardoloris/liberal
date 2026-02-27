@@ -6,7 +6,7 @@ export interface TwitterPostResult {
 }
 
 /**
- * Post a tweet to the @LIBERAL_FR account via Twitter API v2.
+ * Post a tweet to the @NicolasPaye_FR account via Twitter/X API v2.
  * In production, this uses OAuth credentials from environment variables.
  * For MVP, this is a placeholder that logs the tweet text.
  */
@@ -19,7 +19,7 @@ export async function postTweet(text: string): Promise<TwitterPostResult> {
     return {
       success: true,
       tweetId: 'dev-' + Date.now(),
-      tweetUrl: `https://twitter.com/LIBERAL_FR/status/dev-${Date.now()}`,
+      tweetUrl: `https://twitter.com/NicolasPaye_FR/status/dev-${Date.now()}`,
     };
   }
 
@@ -49,7 +49,7 @@ export async function postTweet(text: string): Promise<TwitterPostResult> {
     return {
       success: true,
       tweetId,
-      tweetUrl: `https://twitter.com/LIBERAL_FR/status/${tweetId}`,
+      tweetUrl: `https://twitter.com/NicolasPaye_FR/status/${tweetId}`,
     };
   } catch (err) {
     return {

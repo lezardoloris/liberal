@@ -24,27 +24,27 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
   title: {
-    default: 'LIBERAL - La tronconneuse citoyenne',
-    template: '%s | LIBERAL',
+    default: 'NICOLAS PAYE - La communaute open source pour tronconner les depenses publiques',
+    template: '%s | NICOLAS PAYE',
   },
   description:
     'Plateforme citoyenne collaborative pour identifier, documenter et voter sur les depenses publiques a reduire. Transparence, donnees officielles et participation democratique.',
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
-    siteName: 'LIBERAL',
+    siteName: 'NICOLAS PAYE',
     images: [
       {
         url: '/og-default.png',
         width: 1200,
         height: 630,
-        alt: 'LIBERAL - La tronconneuse citoyenne',
+        alt: 'NICOLAS PAYE - La communaute open source pour tronconner les depenses publiques',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@LIBERAL_FR',
+    site: '@NicolasPaye_FR',
   },
 };
 

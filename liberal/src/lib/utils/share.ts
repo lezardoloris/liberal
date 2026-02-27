@@ -12,7 +12,7 @@ export function buildShareText(
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(costPerTaxpayer);
-  return `${truncatedTitle} coute ${formatted} EUR par an a chaque contribuable francais. #CostToNicolas #LIBERAL`;
+  return `${truncatedTitle} coute ${formatted} EUR par an a chaque contribuable francais. #NicolasPaye #Tronconneuse`;
 }
 
 /**

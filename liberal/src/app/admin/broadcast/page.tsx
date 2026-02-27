@@ -21,7 +21,7 @@ export default async function BroadcastPage() {
           Diffusion Twitter / X
         </h2>
         <p className="mt-1 text-sm text-text-muted">
-          Publiez des soumissions sur le compte Twitter officiel @LIBERAL_FR.
+          Publiez des soumissions sur le compte Twitter officiel @NicolasPaye_FR.
         </p>
       </div>
 

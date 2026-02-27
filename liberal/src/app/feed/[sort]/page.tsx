@@ -18,7 +18,7 @@ const SORT_META: Record<string, { title: string; description: string }> = {
   hot: {
     title: 'Tendances',
     description:
-      'Les gaspillages publics les plus signales en ce moment sur LIBERAL.',
+      'Les gaspillages publics les plus signales en ce moment sur NICOLAS PAYE.',
   },
   new: {
     title: 'Recent',
@@ -28,7 +28,7 @@ const SORT_META: Record<string, { title: string; description: string }> = {
   top: {
     title: 'Top',
     description:
-      'Les gaspillages publics les plus votes de tous les temps sur LIBERAL.',
+      'Les gaspillages publics les plus votes de tous les temps sur NICOLAS PAYE.',
   },
 };
 
@@ -39,10 +39,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { sort } = await params;
   const meta = SORT_META[sort];
-  if (!meta) return { title: 'LIBERAL' };
+  if (!meta) return { title: 'NICOLAS PAYE' };
 
   return {
-    title: `${meta.title} - LIBERAL`,
+    title: `${meta.title} - NICOLAS PAYE`,
     description: meta.description,
   };
 }

@@ -35,7 +35,7 @@ export default function DesktopNav() {
         href="/feed/hot"
         className="font-display text-chainsaw-red font-bold text-xl"
       >
-        LIBERAL
+        NICOLAS PAYE
       </Link>
 
       <nav className="flex items-center gap-6">

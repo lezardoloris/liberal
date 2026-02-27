@@ -27,7 +27,7 @@ export default async function MethodologiePage() {
         Methodologie de calcul
       </h1>
       <p className="text-text-secondary mb-8">
-        Chaque chiffre affiche sur LIBERAL est calculable, verifiable et
+        Chaque chiffre affiche sur NICOLAS PAYE est calculable, verifiable et
         contestable. Voici les formules exactes et les sources officielles
         utilisees.
       </p>

@@ -3,14 +3,14 @@ export default function Footer() {
     <footer className="hidden md:block border-t border-border-default bg-surface-primary py-8 px-6">
       <div className="mx-auto max-w-5xl flex flex-col gap-4 text-text-muted text-sm">
         <p>
-          LIBERAL &mdash; La tronconneuse citoyenne. Licence{' '}
+          NICOLAS PAYE &mdash; La communaute open source pour tronconner les depenses publiques. Licence{' '}
           <a
-            href="https://www.gnu.org/licenses/agpl-3.0.html"
+            href="https://opensource.org/licenses/MIT"
             target="_blank"
             rel="noopener noreferrer"
             className="underline hover:text-text-secondary"
           >
-            AGPL-3.0
+            MIT
           </a>
           .
         </p>

@@ -61,7 +61,7 @@ export async function GET(
                 letterSpacing: '-0.02em',
               }}
             >
-              LIBERAL
+              NICOLAS PAYE
             </span>
           </div>
 

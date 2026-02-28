@@ -3,10 +3,15 @@ import { FeedSortTabs } from '@/components/features/feed/FeedSortTabs';
 import { TopTimeFilter } from '@/components/features/feed/TopTimeFilter';
 import { HeroSection } from '@/components/features/feed/HeroSection';
 import { FeedPageClient } from '@/components/features/feed/FeedPageClient';
+import { MiniLeaderboard } from '@/components/features/leaderboard/MiniLeaderboard';
+import { GamificationTeaser } from '@/components/features/gamification/GamificationTeaser';
+import { SignupCTA } from '@/components/features/auth/SignupCTA';
 
 import { getSubmissions } from '@/lib/api/submissions';
 import { getPlatformStats } from '@/lib/api/stats';
+import { getTopLeaderboard } from '@/lib/api/leaderboard';
 import { isValidSort } from '@/lib/utils/validation';
+import { auth } from '@/lib/auth';
 import type { Metadata } from 'next';
 
 // ISR revalidation: base 60s (hot default)
@@ -68,25 +73,54 @@ export default async function FeedPage({ params, searchParams }: FeedPageProps) 
       ? (timeWindow as 'today' | 'week' | 'month' | 'all')
       : 'week';
 
-  const [submissions, stats] = await Promise.all([
+  const [submissions, stats, leaderboard, session] = await Promise.all([
     getSubmissions({ sort, timeWindow: validTimeWindow }),
     getPlatformStats(),
+    getTopLeaderboard(5),
+    auth(),
   ]);
 
+  const isLoggedOut = !session?.user;
+
   return (
-    <main id="main-content" className="mx-auto max-w-3xl px-4 pt-4 pb-20 md:pt-6 md:pb-6">
-      <HeroSection stats={stats} />
+    <main id="main-content" className="mx-auto max-w-6xl px-4 pt-4 pb-20 md:pt-6 md:pb-6">
+      <div className="mx-auto max-w-3xl lg:max-w-none">
+        <HeroSection stats={stats} />
+      </div>
 
-      <FeedSortTabs activeSort={sort} />
+      {/* Mobile: inline mini leaderboard */}
+      <div className="mx-auto max-w-3xl lg:hidden">
+        <MiniLeaderboard entries={leaderboard} variant="inline" />
+      </div>
 
-      {sort === 'top' && <TopTimeFilter activeWindow={validTimeWindow} />}
+      <div className="lg:flex lg:gap-6">
+        {/* Main feed column */}
+        <div className="min-w-0 flex-1 lg:max-w-3xl">
+          <FeedSortTabs activeSort={sort} />
 
-      <div className="mt-4">
-        <FeedPageClient
-          initialData={submissions}
-          sort={sort}
-          timeWindow={sort === 'top' ? validTimeWindow : undefined}
-        />
+          {sort === 'top' && <TopTimeFilter activeWindow={validTimeWindow} />}
+
+          <div className="mt-4">
+            <FeedPageClient
+              initialData={submissions}
+              sort={sort}
+              timeWindow={sort === 'top' ? validTimeWindow : undefined}
+            />
+          </div>
+        </div>
+
+        {/* Desktop sidebar */}
+        <aside className="hidden w-[280px] shrink-0 lg:block">
+          <div className="sticky top-20 space-y-4">
+            <MiniLeaderboard entries={leaderboard} variant="sidebar" />
+            {isLoggedOut && (
+              <>
+                <GamificationTeaser />
+                <SignupCTA />
+              </>
+            )}
+          </div>
+        </aside>
       </div>
     </main>
   );

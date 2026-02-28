@@ -127,6 +127,9 @@ export const submissions = pgTable('submissions', {
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
   deletedAt: timestamp('deleted_at'),
   isSeeded: integer('is_seeded').notNull().default(0),
+  // ─── Community validation weights ───
+  approveWeight: integer('approve_weight').notNull().default(0),
+  rejectWeight: integer('reject_weight').notNull().default(0),
 });
 
 // ─── Votes ──────────────────────────────────────────────────────────
@@ -247,6 +250,7 @@ export const submissionsRelations = relations(submissions, ({ one, many }) => ({
   solutions: many(solutions),
   sources: many(submissionSources),
   communityNotes: many(communityNotes),
+  communityValidations: many(communityValidations),
 }));
 
 export const votesRelations = relations(votes, ({ one }) => ({
@@ -900,6 +904,41 @@ export const antiGamingEventsRelations = relations(antiGamingEvents, ({ one }) =
   }),
 }));
 
+// ─── Community Validations ─────────────────────────────────────────
+export const validationVerdict = pgEnum('validation_verdict', ['approve', 'reject']);
+
+export const communityValidations = pgTable(
+  'community_validations',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    submissionId: uuid('submission_id')
+      .notNull()
+      .references(() => submissions.id, { onDelete: 'cascade' }),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    verdict: validationVerdict('verdict').notNull(),
+    weight: integer('weight').notNull().default(1),
+    reason: text('reason'),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex('idx_community_validations_user_submission').on(table.userId, table.submissionId),
+    index('idx_community_validations_submission').on(table.submissionId),
+  ],
+);
+
+export const communityValidationsRelations = relations(communityValidations, ({ one }) => ({
+  submission: one(submissions, {
+    fields: [communityValidations.submissionId],
+    references: [submissions.id],
+  }),
+  user: one(users, {
+    fields: [communityValidations.userId],
+    references: [users.id],
+  }),
+}));
+
 // ─── Type Exports ──────────────────────────────────────────────────
 export type Submission = typeof submissions.$inferSelect;
 export type NewSubmission = typeof submissions.$inferInsert;
@@ -933,3 +972,5 @@ export type NewXpEvent = typeof xpEvents.$inferInsert;
 export type BadgeDefinition = typeof badgeDefinitions.$inferSelect;
 export type UserBadge = typeof userBadges.$inferSelect;
 export type AntiGamingEvent = typeof antiGamingEvents.$inferSelect;
+export type CommunityValidation = typeof communityValidations.$inferSelect;
+export type NewCommunityValidation = typeof communityValidations.$inferInsert;

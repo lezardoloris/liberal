@@ -32,10 +32,10 @@ function getOutrageTier(costPerTaxpayer: string | null): {
   if (!costPerTaxpayer) return { border: 'border-l-border-default', bg: '', isExtreme: false };
   const cost = parseFloat(costPerTaxpayer);
   if (cost >= 10)
-    return { border: 'border-l-chainsaw-red', bg: 'bg-chainsaw-red/[0.03]', isExtreme: true };
-  if (cost >= 1) return { border: 'border-l-chainsaw-red/50', bg: 'bg-chainsaw-red/[0.02]', isExtreme: false };
+    return { border: 'border-l-chainsaw-red', bg: '', isExtreme: true };
+  if (cost >= 1) return { border: 'border-l-chainsaw-red/50', bg: '', isExtreme: false };
   if (cost >= 0.1) return { border: 'border-l-text-muted', bg: '', isExtreme: false };
-  return { border: 'border-l-text-muted', bg: 'bg-surface-secondary', isExtreme: false };
+  return { border: 'border-l-text-muted', bg: '', isExtreme: false };
 }
 
 export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {

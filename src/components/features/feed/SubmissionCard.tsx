@@ -50,10 +50,10 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
       role="article"
       aria-label={`${submission.title}, score: ${score}, cout: ${formatEUR(submission.amount)}`}
       className={cn(
-        'group border-border-default relative rounded-lg border',
+        'group relative rounded-lg border border-border-default',
         'bg-surface-secondary',
         outrage.bg,
-        'hover:bg-surface-elevated hover:border-border-default/80 transition-all duration-200',
+        'transition-all duration-200 hover:border-border-default/80 hover:bg-surface-elevated',
         'border-l-[5px]',
         'card-hover-lift',
         outrage.border,
@@ -62,33 +62,84 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
       {/* Stretched link — makes entire card clickable */}
       <Link
         href={`/s/${submission.id}`}
-        className="focus-visible:ring-chainsaw-red focus-visible:ring-offset-surface-secondary absolute inset-0 z-0 rounded-lg focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+        className="absolute inset-0 z-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-chainsaw-red focus-visible:ring-offset-2 focus-visible:ring-offset-surface-secondary"
         aria-label={truncate(submission.title, 120)}
         tabIndex={-1}
       />
 
-      <div className="pointer-events-none relative z-1 space-y-3 p-4">
-        {/* Row 1: Metadata + Cost per citizen */}
-        <div className="text-text-muted flex flex-wrap items-center gap-2 text-xs">
-          {category && (
-            <span
-              className={cn(
-                'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] leading-4 font-semibold',
-                category.color,
-                category.bgColor,
+      <div className="pointer-events-none relative z-1 p-4">
+        {/* Top section: stacked on mobile, row on desktop */}
+        <div className="md:flex md:items-start md:justify-between md:gap-4">
+          <div className="min-w-0 space-y-2 md:flex-1">
+            {/* Metadata + cost badges inline on mobile */}
+            <div className="flex flex-wrap items-center gap-2 text-xs text-text-muted">
+              {category && (
+                <span
+                  className={cn(
+                    'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold leading-4',
+                    category.color,
+                    category.bgColor,
+                  )}
+                >
+                  <category.icon className="size-3" aria-hidden="true" />
+                  {category.label}
+                </span>
               )}
-            >
-              <category.icon className="size-3" aria-hidden="true" />
-              {category.label}
-            </span>
-          )}
-          <SourceBadge sourceUrl={submission.sourceUrl} sourceCount={submission.sourceCount} />
-          {submission.costPerTaxpayer && (
-            <>
+              <SourceBadge
+                sourceUrl={submission.sourceUrl}
+                sourceCount={submission.sourceCount}
+              />
               <span aria-hidden="true">&middot;</span>
+              <time
+                dateTime={
+                  typeof submission.createdAt === 'string'
+                    ? submission.createdAt
+                    : submission.createdAt.toISOString()
+                }
+              >
+                {formatRelativeTime(submission.createdAt)}
+              </time>
+            </div>
+
+            {/* Cost badges: above title on mobile, hidden on desktop (shown top-right instead) */}
+            <div className="flex flex-wrap items-center gap-1.5 md:hidden">
+              {submission.costPerTaxpayer && (
+                <span
+                  className={cn(
+                    'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold leading-4 tabular-nums',
+                    outrage.isExtreme
+                      ? 'bg-chainsaw-red/15 text-chainsaw-red'
+                      : 'bg-warning/15 text-warning',
+                  )}
+                >
+                  {outrage.isExtreme && <Flame className="size-3" aria-hidden="true" />}
+                  {formatEURPrecise(submission.costPerTaxpayer)}/citoyen
+                </span>
+              )}
+              <span className="inline-flex items-center rounded-full bg-chainsaw-red/10 px-2 py-0.5 text-[11px] font-black tabular-nums text-chainsaw-red">
+                {formatCompactEUR(Number(submission.amount))}
+              </span>
+            </div>
+
+            {/* Title + Description */}
+            <div>
+              <h3 className="line-clamp-2 text-base font-semibold leading-snug text-text-primary transition-colors group-hover:text-chainsaw-red md:text-lg">
+                {truncate(submission.title, 120)}
+              </h3>
+              {submission.description && (
+                <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-text-secondary">
+                  {truncate(submission.description, 200)}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Cost badges: top-right on desktop */}
+          <div className="hidden shrink-0 items-center gap-1.5 md:flex">
+            {submission.costPerTaxpayer && (
               <span
                 className={cn(
-                  'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] leading-4 font-bold tabular-nums',
+                  'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold leading-4 tabular-nums',
                   outrage.isExtreme
                     ? 'bg-chainsaw-red/15 text-chainsaw-red'
                     : 'bg-warning/15 text-warning',
@@ -97,37 +148,22 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
                 {outrage.isExtreme && <Flame className="size-3" aria-hidden="true" />}
                 {formatEURPrecise(submission.costPerTaxpayer)}/citoyen
               </span>
-            </>
-          )}
-          <span aria-hidden="true">&middot;</span>
-          <time
-            dateTime={
-              typeof submission.createdAt === 'string'
-                ? submission.createdAt
-                : submission.createdAt.toISOString()
-            }
-          >
-            {formatRelativeTime(submission.createdAt)}
-          </time>
-        </div>
-
-        {/* Row 2: Title + Description */}
-        <div>
-          <h3 className="text-text-primary group-hover:text-chainsaw-red line-clamp-2 text-base leading-snug font-semibold transition-colors md:text-lg">
-            {truncate(submission.title, 120)}
-          </h3>
-          {submission.description && (
-            <p className="text-text-secondary mt-1 line-clamp-2 text-sm leading-relaxed">
-              {truncate(submission.description, 200)}
-            </p>
-          )}
+            )}
+            <span className="inline-flex items-center rounded-full bg-chainsaw-red/10 px-2.5 py-0.5 text-xs font-black tabular-nums text-chainsaw-red">
+              {formatCompactEUR(Number(submission.amount))}
+            </span>
+          </div>
         </div>
 
         {/* Pinned Community Note */}
-        {submission.pinnedNoteBody && <PinnedNote body={submission.pinnedNoteBody} />}
+        {submission.pinnedNoteBody && (
+          <div className="mt-3">
+            <PinnedNote body={submission.pinnedNoteBody} />
+          </div>
+        )}
 
-        {/* Row 3: Action Bar */}
-        <div className="pointer-events-auto flex items-center gap-1 pt-1">
+        {/* Action Bar */}
+        <div className="pointer-events-auto mt-3 flex items-center gap-1">
           <VoteButtonInline
             submissionId={submission.id}
             serverCounts={{
@@ -140,8 +176,8 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
             href={`/s/${submission.id}#commentaires`}
             className={cn(
               'inline-flex items-center gap-1.5 rounded-full px-3 py-1.5',
-              'text-text-muted text-xs font-medium',
-              'hover:bg-surface-elevated hover:text-text-secondary transition-colors',
+              'text-xs font-medium text-text-muted',
+              'transition-colors hover:bg-surface-elevated hover:text-text-secondary',
             )}
             aria-label={`${submission.commentCount} commentaires`}
           >
@@ -149,21 +185,19 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
             <span>{submission.commentCount}</span>
           </Link>
 
+          <span className="flex-1" />
+
           <ShareButton
             submissionId={submission.id}
             title={submission.title}
             costPerTaxpayer={
-              submission.costPerTaxpayer ? parseFloat(submission.costPerTaxpayer) : undefined
+              submission.costPerTaxpayer
+                ? parseFloat(submission.costPerTaxpayer)
+                : undefined
             }
             variant="compact"
-            className="text-text-muted hover:bg-surface-elevated hover:text-text-secondary h-auto min-h-0 min-w-0 rounded-full border-none bg-transparent px-3 py-1.5 text-xs font-medium shadow-none"
+            className="h-auto min-h-0 min-w-0 rounded-full border-none bg-transparent px-3 py-1.5 text-xs font-medium text-text-muted shadow-none hover:bg-surface-elevated hover:text-text-secondary"
           />
-
-          <div className="flex-1" />
-
-          <span className="bg-chainsaw-red/10 text-chainsaw-red inline-flex items-center rounded-full px-2 py-0.5 text-xs font-black tabular-nums sm:px-3 sm:py-1 sm:text-sm">
-            {formatCompactEUR(Number(submission.amount))}
-          </span>
         </div>
       </div>
     </motion.article>

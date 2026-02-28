@@ -80,11 +80,9 @@ export function LeaderboardTable({ entries }: LeaderboardTableProps) {
                     <Flame
                       className={cn(
                         'size-3.5',
-                        entry.streak >= 30
-                          ? 'text-orange-400'
-                          : entry.streak >= 7
-                            ? 'text-yellow-400'
-                            : 'text-text-muted',
+                        entry.streak >= 7
+                          ? 'text-chainsaw-red'
+                          : 'text-text-muted',
                       )}
                     />
                     <span className="tabular-nums">{entry.streak}j</span>

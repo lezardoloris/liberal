@@ -277,7 +277,7 @@ export function AdminGamificationClient() {
                     <td className="px-4 py-2 text-text-primary">
                       {e.actionType}
                     </td>
-                    <td className={`px-4 py-2 text-right tabular-nums font-bold ${e.xpAmount >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                    <td className={`px-4 py-2 text-right tabular-nums font-bold ${e.xpAmount >= 0 ? 'text-chainsaw-red' : 'text-text-muted'}`}>
                       {e.xpAmount >= 0 ? '+' : ''}{e.xpAmount}
                     </td>
                     <td className="px-4 py-2 text-right text-text-muted text-xs">

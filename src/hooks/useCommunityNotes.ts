@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useXpResponse } from '@/hooks/useXpResponse';
 
 interface CommunityNote {
   id: string;
@@ -18,6 +19,7 @@ interface CommunityNote {
 
 export function useCommunityNotes(submissionId: string) {
   const queryClient = useQueryClient();
+  const { processXpResponse } = useXpResponse();
 
   const query = useQuery<CommunityNote[]>({
     queryKey: ['communityNotes', submissionId],
@@ -42,8 +44,9 @@ export function useCommunityNotes(submissionId: string) {
       }
       return res.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['communityNotes', submissionId] });
+      processXpResponse(data);
     },
   });
 
@@ -57,8 +60,9 @@ export function useCommunityNotes(submissionId: string) {
       if (!res.ok) throw new Error('Vote failed');
       return res.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['communityNotes', submissionId] });
+      processXpResponse(data);
     },
   });
 

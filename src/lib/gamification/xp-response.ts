@@ -7,6 +7,7 @@ export interface XpResponseData {
   newLevel: number | null;
   newLevelTitle: string | null;
   streak: number;
+  sessionCooldown: boolean;
 }
 
 export function formatXpResponse(result: XpAwardResult): XpResponseData | null {
@@ -18,5 +19,6 @@ export function formatXpResponse(result: XpAwardResult): XpResponseData | null {
     newLevel: result.newLevel,
     newLevelTitle: result.newLevelTitle,
     streak: result.currentStreak,
+    sessionCooldown: result.sessionCooldown,
   };
 }

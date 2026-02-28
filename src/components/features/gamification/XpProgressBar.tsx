@@ -19,7 +19,7 @@ export function XpProgressBar() {
       </div>
       <div className="relative h-2 w-20 overflow-hidden rounded-full bg-surface-elevated">
         <div
-          className="absolute inset-y-0 left-0 rounded-full bg-linear-to-r from-chainsaw-red to-red-400 transition-all duration-500"
+          className="absolute inset-y-0 left-0 rounded-full bg-chainsaw-red transition-all duration-500"
           style={{ width: `${progressPercent}%` }}
         />
       </div>

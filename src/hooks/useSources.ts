@@ -2,6 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { SourceType } from '@/lib/utils/validation';
+import { useXpResponse } from '@/hooks/useXpResponse';
 
 interface SubmissionSource {
   id: string;
@@ -17,6 +18,7 @@ interface SubmissionSource {
 
 export function useSources(submissionId: string) {
   const queryClient = useQueryClient();
+  const { processXpResponse } = useXpResponse();
 
   const query = useQuery<SubmissionSource[]>({
     queryKey: ['sources', submissionId],
@@ -41,8 +43,9 @@ export function useSources(submissionId: string) {
       }
       return res.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['sources', submissionId] });
+      processXpResponse(data);
     },
   });
 
@@ -56,8 +59,9 @@ export function useSources(submissionId: string) {
       if (!res.ok) throw new Error('Validation failed');
       return res.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['sources', submissionId] });
+      processXpResponse(data);
     },
   });
 

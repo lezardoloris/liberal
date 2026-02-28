@@ -13,11 +13,9 @@ export function StreakBadge() {
     <div className="flex items-center gap-1 text-xs font-bold">
       <Flame
         className={`size-3.5 ${
-          currentStreak >= 30
-            ? 'text-orange-400'
-            : currentStreak >= 7
-              ? 'text-yellow-400'
-              : 'text-text-muted'
+          currentStreak >= 7
+            ? 'text-chainsaw-red'
+            : 'text-text-muted'
         }`}
       />
       <span className="tabular-nums text-text-secondary">{currentStreak}j</span>
@@ -39,11 +37,9 @@ export function StreakBadgeLarge({
       <div className="flex items-center gap-1.5">
         <Flame
           className={`size-5 ${
-            streak >= 30
-              ? 'text-orange-400'
-              : streak >= 7
-                ? 'text-yellow-400'
-                : 'text-text-muted'
+            streak >= 7
+              ? 'text-chainsaw-red'
+              : 'text-text-muted'
           }`}
         />
         <span className="text-lg font-bold tabular-nums text-text-primary">

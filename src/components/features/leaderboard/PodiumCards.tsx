@@ -11,21 +11,21 @@ interface PodiumCardsProps {
 
 const podiumStyles: Record<number, { border: string; bg: string; glow: string; size: string }> = {
   1: {
-    border: 'border-yellow-400/60',
-    bg: 'bg-yellow-400/[0.07]',
-    glow: 'shadow-yellow-400/20',
+    border: 'border-chainsaw-red/60',
+    bg: 'bg-chainsaw-red/[0.05]',
+    glow: 'shadow-chainsaw-red/20',
     size: 'md:scale-105',
   },
   2: {
-    border: 'border-slate-300/60',
-    bg: 'bg-slate-300/[0.05]',
-    glow: 'shadow-slate-300/10',
+    border: 'border-border-default',
+    bg: '',
+    glow: '',
     size: '',
   },
   3: {
-    border: 'border-amber-600/60',
-    bg: 'bg-amber-600/[0.05]',
-    glow: 'shadow-amber-600/10',
+    border: 'border-border-default',
+    bg: '',
+    glow: '',
     size: '',
   },
 };
@@ -61,14 +61,14 @@ export function PodiumCards({ top3 }: PodiumCardsProps) {
                 alt=""
                 className={cn(
                   'rounded-full border-2',
-                  entry.rank === 1 ? 'size-16 border-yellow-400' : 'size-12 border-border-default',
+                  entry.rank === 1 ? 'size-16 border-chainsaw-red' : 'size-12 border-border-default',
                 )}
               />
             ) : (
               <div
                 className={cn(
                   'flex items-center justify-center rounded-full bg-chainsaw-red/10 font-bold text-chainsaw-red border-2',
-                  entry.rank === 1 ? 'size-16 text-xl border-yellow-400' : 'size-12 text-lg border-border-default',
+                  entry.rank === 1 ? 'size-16 text-xl border-chainsaw-red' : 'size-12 text-lg border-border-default',
                 )}
               >
                 {entry.displayName.charAt(0).toUpperCase()}
@@ -91,7 +91,7 @@ export function PodiumCards({ top3 }: PodiumCardsProps) {
               <span>{entry.submissionCount} signal.</span>
               {entry.streak > 0 && (
                 <span className="inline-flex items-center gap-0.5">
-                  <Flame className="size-3 text-yellow-400" />
+                  <Flame className="size-3 text-chainsaw-red" />
                   {entry.streak}j
                 </span>
               )}

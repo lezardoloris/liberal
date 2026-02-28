@@ -65,7 +65,7 @@ export function Top10BarChart({ data }: Top10BarChartProps) {
           />
           <Bar dataKey="amount" radius={[0, 4, 4, 0]}>
             {chartData.map((_, index) => (
-              <Cell key={index} fill={index === 0 ? '#ef4444' : '#f59e0b'} />
+              <Cell key={index} fill={index === 0 ? '#C62828' : '#737373'} />
             ))}
           </Bar>
         </BarChart>

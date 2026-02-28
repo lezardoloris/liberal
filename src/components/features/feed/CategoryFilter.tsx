@@ -56,7 +56,7 @@ export function CategoryFilter({
                         <CategoryPill
                             key={cat.slug}
                             label={cat.label}
-                            icon={<Icon className={cn('size-3.5', cat.color)} aria-hidden="true" />}
+                            icon={<Icon className="size-3.5" aria-hidden="true" />}
                             active={activeCategory === cat.slug}
                             onClick={() => handleSelect(cat.slug)}
                             id={`category-filter-${cat.slug.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}

@@ -13,10 +13,10 @@ interface CategoryPieChartProps {
 }
 
 const COLORS = [
-  '#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6',
-  '#ec4899', '#f97316', '#06b6d4', '#84cc16', '#6366f1',
-  '#14b8a6', '#a855f7', '#e11d48', '#0ea5e9', '#eab308',
-  '#22c55e',
+  '#C62828', '#9B1C1C', '#7F1D1D', '#991B1B', '#B91C1C',
+  '#737373', '#525252', '#6B7280', '#4B5563', '#404040',
+  '#A3A3A3', '#8B8B8B', '#5C5C5C', '#6E6E6E', '#808080',
+  '#959595',
 ];
 
 export function CategoryPieChart({ data }: CategoryPieChartProps) {

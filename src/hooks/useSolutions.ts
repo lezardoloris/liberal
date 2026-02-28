@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useXpResponse } from '@/hooks/useXpResponse';
 
 interface Solution {
   id: string;
@@ -14,6 +15,7 @@ interface Solution {
 
 export function useSolutions(submissionId: string) {
   const queryClient = useQueryClient();
+  const { processXpResponse } = useXpResponse();
 
   const query = useQuery<Solution[]>({
     queryKey: ['solutions', submissionId],
@@ -38,8 +40,9 @@ export function useSolutions(submissionId: string) {
       }
       return res.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['solutions', submissionId] });
+      processXpResponse(data);
     },
   });
 
@@ -59,8 +62,9 @@ export function useSolutions(submissionId: string) {
       if (!res.ok) throw new Error('Vote failed');
       return res.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['solutions', submissionId] });
+      processXpResponse(data);
     },
   });
 

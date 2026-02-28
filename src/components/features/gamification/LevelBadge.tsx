@@ -9,24 +9,10 @@ interface LevelBadgeProps {
   className?: string;
 }
 
-const levelColors: Record<number, string> = {
-  1: 'bg-slate-500/10 text-slate-400',
-  2: 'bg-slate-500/10 text-slate-400',
-  3: 'bg-green-500/10 text-green-400',
-  4: 'bg-green-500/10 text-green-400',
-  5: 'bg-blue-500/10 text-blue-400',
-  6: 'bg-blue-500/10 text-blue-400',
-  7: 'bg-purple-500/10 text-purple-400',
-  8: 'bg-purple-500/10 text-purple-400',
-  9: 'bg-amber-500/10 text-amber-400',
-  10: 'bg-amber-500/10 text-amber-400',
-};
-
 function getLevelColor(level: number): string {
-  if (level >= 19) return 'bg-red-500/10 text-red-400 ring-1 ring-red-500/30';
-  if (level >= 15) return 'bg-yellow-500/10 text-yellow-400 ring-1 ring-yellow-500/20';
-  if (level >= 11) return 'bg-orange-500/10 text-orange-400';
-  return levelColors[level] ?? 'bg-slate-500/10 text-slate-400';
+  if (level >= 15) return 'bg-chainsaw-red/15 text-chainsaw-red ring-1 ring-chainsaw-red/30';
+  if (level >= 7) return 'bg-chainsaw-red/10 text-chainsaw-red';
+  return 'bg-surface-elevated text-text-muted';
 }
 
 export function LevelBadge({ level, title, size = 'sm', className }: LevelBadgeProps) {

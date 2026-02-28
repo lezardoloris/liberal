@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useSession } from '@/hooks/useAuth';
+import { useXpResponse } from '@/hooks/useXpResponse';
 
 type VoteDirection = 'up' | 'down' | null;
 
@@ -23,6 +24,7 @@ export function useCommentVote({
   initialDownvotes,
 }: UseCommentVoteOptions) {
   const { isAuthenticated, openAuthGate } = useSession();
+  const { processXpResponse } = useXpResponse();
   const [direction, setDirection] = useState<VoteDirection>(initialDirection);
   const [score, setScore] = useState(initialScore);
   const [upvotes, setUpvotes] = useState(initialUpvotes);
@@ -89,6 +91,7 @@ export function useCommentVote({
         setUpvotes(data.data.upvoteCount);
         setDownvotes(data.data.downvoteCount);
       }
+      processXpResponse(data);
     },
   });
 

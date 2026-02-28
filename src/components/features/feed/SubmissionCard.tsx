@@ -14,8 +14,9 @@ import { VoteButtonInline } from '@/components/features/voting/VoteButtonInline'
 import { ShareButton } from '@/components/features/sharing/ShareButton';
 import { SourceBadge } from '@/components/features/sources/SourceBadge';
 import { PinnedNote } from '@/components/features/notes/PinnedNote';
-import { MessageSquare, Flame } from 'lucide-react';
+import { MessageSquare, Flame, Zap } from 'lucide-react';
 import { getCategoryDef } from '@/lib/constants/categories';
+import { getLevelFromXp } from '@/lib/gamification/xp-config';
 import type { SubmissionCardData } from '@/types/submission';
 
 interface SubmissionCardProps {
@@ -32,8 +33,8 @@ function getOutrageTier(costPerTaxpayer: string | null): {
   const cost = parseFloat(costPerTaxpayer);
   if (cost >= 10)
     return { border: 'border-l-chainsaw-red', bg: 'bg-chainsaw-red/[0.03]', isExtreme: true };
-  if (cost >= 1) return { border: 'border-l-warning', bg: 'bg-warning/[0.03]', isExtreme: false };
-  if (cost >= 0.1) return { border: 'border-l-info', bg: 'bg-info/[0.02]', isExtreme: false };
+  if (cost >= 1) return { border: 'border-l-chainsaw-red/50', bg: 'bg-chainsaw-red/[0.02]', isExtreme: false };
+  if (cost >= 0.1) return { border: 'border-l-text-muted', bg: '', isExtreme: false };
   return { border: 'border-l-text-muted', bg: 'bg-surface-secondary', isExtreme: false };
 }
 
@@ -41,6 +42,7 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
   const score = submission.upvoteCount - submission.downvoteCount;
   const category = getCategoryDef(submission.ministryTag);
   const outrage = getOutrageTier(submission.costPerTaxpayer);
+  const authorLevelInfo = submission.authorLevel ? getLevelFromXp(submission.authorLevel) : null;
 
   return (
     <motion.article
@@ -71,7 +73,7 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
         {/* Top section: stacked on mobile, row on desktop */}
         <div className="md:flex md:items-start md:justify-between md:gap-4">
           <div className="min-w-0 space-y-2 md:flex-1">
-            {/* Metadata + cost badges inline on mobile */}
+            {/* Metadata row */}
             <div className="flex flex-wrap items-center gap-2 text-xs text-text-muted">
               {category && (
                 <span
@@ -99,6 +101,21 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
               >
                 {formatRelativeTime(submission.createdAt)}
               </time>
+              {authorLevelInfo && authorLevelInfo.level > 1 && (
+                <>
+                  <span aria-hidden="true">&middot;</span>
+                  <span
+                    className="inline-flex items-center gap-0.5 text-[10px] font-bold text-chainsaw-red/70"
+                    title={`Nv.${authorLevelInfo.level} ${authorLevelInfo.title}`}
+                  >
+                    <Zap className="size-2.5" />
+                    Nv.{authorLevelInfo.level}
+                  </span>
+                </>
+              )}
+              {submission.authorStreak && submission.authorStreak >= 3 ? (
+                <Flame className="size-3 text-text-muted" />
+              ) : null}
             </div>
 
             {/* Cost badges: above title on mobile, hidden on desktop (shown top-right instead) */}
@@ -142,7 +159,7 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
                   'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold leading-4 tabular-nums',
                   outrage.isExtreme
                     ? 'bg-chainsaw-red/15 text-chainsaw-red'
-                    : 'bg-warning/15 text-warning',
+                    : 'bg-chainsaw-red/10 text-chainsaw-red/80',
                 )}
               >
                 {outrage.isExtreme && <Flame className="size-3" aria-hidden="true" />}

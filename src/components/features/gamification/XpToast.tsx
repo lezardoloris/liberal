@@ -54,7 +54,7 @@ function XpToastItem({
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       className={`pointer-events-auto rounded-full px-4 py-2 shadow-lg ${
         leveledUp
-          ? 'bg-linear-to-r from-yellow-500 to-amber-500 text-white'
+          ? 'bg-chainsaw-red ring-2 ring-chainsaw-red/30 text-white'
           : 'bg-chainsaw-red text-white'
       }`}
     >

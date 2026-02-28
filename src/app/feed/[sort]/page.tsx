@@ -2,11 +2,10 @@ import { notFound } from 'next/navigation';
 import { FeedSortTabs } from '@/components/features/feed/FeedSortTabs';
 import { TopTimeFilter } from '@/components/features/feed/TopTimeFilter';
 import { HeroSection } from '@/components/features/feed/HeroSection';
-import { HomeStats } from '@/components/features/feed/HomeStats';
 import { FeedPageClient } from '@/components/features/feed/FeedPageClient';
 
 import { getSubmissions } from '@/lib/api/submissions';
-import { getFullStats } from '@/lib/api/stats';
+import { getPlatformStats } from '@/lib/api/stats';
 import { isValidSort } from '@/lib/utils/validation';
 import type { Metadata } from 'next';
 
@@ -69,16 +68,14 @@ export default async function FeedPage({ params, searchParams }: FeedPageProps) 
       ? (timeWindow as 'today' | 'week' | 'month' | 'all')
       : 'week';
 
-  const [submissions, fullStats] = await Promise.all([
+  const [submissions, stats] = await Promise.all([
     getSubmissions({ sort, timeWindow: validTimeWindow }),
-    getFullStats(),
+    getPlatformStats(),
   ]);
 
   return (
     <main id="main-content" className="mx-auto max-w-3xl px-4 pt-4 pb-20 md:pt-6 md:pb-6">
-      <HeroSection />
-
-      <HomeStats stats={fullStats} />
+      <HeroSection stats={stats} />
 
       <FeedSortTabs activeSort={sort} />
 

@@ -4,10 +4,16 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import Image from 'next/image';
-import { ChevronDown, PlusCircle } from 'lucide-react';
+import { ChevronDown, PlusCircle, Skull, DollarSign, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { formatCompactEUR, formatCompactNumber } from '@/lib/utils/format';
+import type { PlatformStats } from '@/lib/api/stats';
 
-export function HeroSection() {
+interface HeroSectionProps {
+  stats?: PlatformStats;
+}
+
+export function HeroSection({ stats }: HeroSectionProps) {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -55,6 +61,31 @@ export function HeroSection() {
               >
                 <ChevronDown className="size-4" aria-hidden="true" />
               </button>
+            </div>
+
+            {/* KPI cards — stats page style */}
+            <div className="mt-4 grid grid-cols-3 gap-3">
+              <div className="rounded-lg border border-chainsaw-red/20 bg-chainsaw-red/5 p-3">
+                <Skull className="size-4 text-chainsaw-red" aria-hidden="true" />
+                <p className="mt-1 font-display text-xl font-black tabular-nums text-chainsaw-red sm:text-2xl">
+                  {stats ? formatCompactEUR(stats.totalAmountEur) : '--'}
+                </p>
+                <p className="text-[10px] text-text-muted sm:text-xs">documentés</p>
+              </div>
+              <div className="rounded-lg border border-border-default bg-surface-secondary/50 p-3">
+                <DollarSign className="size-4 text-text-muted" aria-hidden="true" />
+                <p className="mt-1 font-display text-xl font-bold tabular-nums text-text-primary sm:text-2xl">
+                  {stats ? formatCompactEUR(stats.costPerTaxpayer) : '--'}
+                </p>
+                <p className="text-[10px] text-text-muted sm:text-xs">par contribuable</p>
+              </div>
+              <div className="rounded-lg border border-border-default bg-surface-secondary/50 p-3">
+                <FileText className="size-4 text-text-muted" aria-hidden="true" />
+                <p className="mt-1 font-display text-xl font-bold tabular-nums text-text-primary sm:text-2xl">
+                  {stats ? formatCompactNumber(stats.totalSubmissions) : '--'}
+                </p>
+                <p className="text-[10px] text-text-muted sm:text-xs">signalements</p>
+              </div>
             </div>
 
             {/* CTA + feedback row */}

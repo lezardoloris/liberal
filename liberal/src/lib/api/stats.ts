@@ -33,10 +33,10 @@ export async function getPlatformStats(): Promise<PlatformStats> {
   ]);
 
   return {
-    totalSubmissions: submissionStats[0]?.count ?? 0,
-    totalAmountEur: submissionStats[0]?.totalAmount ?? 0,
+    totalSubmissions: Number(submissionStats[0]?.count) || 0,
+    totalAmountEur: Number(submissionStats[0]?.totalAmount) || 0,
     totalUniqueVoters:
-      (authVoters[0]?.count ?? 0) + (anonVoters[0]?.count ?? 0),
+      (Number(authVoters[0]?.count) || 0) + (Number(anonVoters[0]?.count) || 0),
   };
 }
 
@@ -107,26 +107,29 @@ export async function getFullStats(): Promise<StatsData> {
       .orderBy(sql`to_char(${submissions.createdAt}, 'YYYY-MM')`),
   ]);
 
+  // Coerce all DB values to real JS numbers (PostgreSQL numeric → string)
+  const n = (v: unknown): number => Number(v) || 0;
+
   // Compute cumulative amounts
   let cumulative = 0;
   const timelineData = overTime.map((row) => {
-    cumulative += row.totalAmount;
+    cumulative += n(row.totalAmount);
     return {
       month: row.month,
-      count: row.count,
+      count: n(row.count),
       cumulativeAmount: cumulative,
     };
   });
 
   return {
     totals: {
-      submissions: totalsRow[0]?.count ?? 0,
-      totalAmountEur: totalsRow[0]?.totalAmount ?? 0,
-      totalUpvotes: totalsRow[0]?.totalUpvotes ?? 0,
-      uniqueVoters: (authVoters[0]?.count ?? 0) + (anonVoters[0]?.count ?? 0),
+      submissions: n(totalsRow[0]?.count),
+      totalAmountEur: n(totalsRow[0]?.totalAmount),
+      totalUpvotes: n(totalsRow[0]?.totalUpvotes),
+      uniqueVoters: n(authVoters[0]?.count) + n(anonVoters[0]?.count),
     },
-    byCategory,
-    top10,
+    byCategory: byCategory.map((r) => ({ category: r.category, count: n(r.count), totalAmount: n(r.totalAmount) })),
+    top10: top10.map((r) => ({ id: r.id, title: r.title, amount: n(r.amount), ministryTag: r.ministryTag })),
     overTime: timelineData,
   };
 }

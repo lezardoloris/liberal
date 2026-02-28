@@ -51,7 +51,7 @@ export function FeedSortTabs({ activeSort }: FeedSortTabsProps) {
     <div
       role="tablist"
       aria-label="Trier les signalements"
-      className="sticky top-16 z-10 flex gap-1 overflow-x-auto bg-surface-primary py-3 scrollbar-hide md:overflow-x-visible"
+      className="sticky top-12 md:top-16 z-10 flex gap-1 overflow-x-auto bg-surface-primary py-3 scrollbar-hide md:overflow-x-visible"
     >
       {SORT_OPTIONS.map((option, index) => (
         <button

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
@@ -34,15 +35,17 @@ export default function DesktopNav() {
     <header className="hidden md:flex sticky top-0 z-50 h-16 items-center justify-between border-b border-border-default bg-surface-primary/80 backdrop-blur-sm px-6">
       <Link
         href="/feed/hot"
-        className="flex flex-col leading-none"
+        className="flex items-center gap-3"
         aria-label="C'est Nicolas qui paye - accueil"
       >
-        <span className="font-display text-xs font-semibold uppercase tracking-widest text-text-muted">
-          C&apos;est
-        </span>
-        <span className="font-display text-lg font-black uppercase tracking-tight text-chainsaw-red">
-          Nicolas qui paye
-        </span>
+        <Image
+          src="/logo.png"
+          alt="C'est Nicolas qui paie"
+          width={180}
+          height={32}
+          className="h-7 w-auto brightness-0 invert"
+          priority
+        />
       </Link>
 
       <nav className="flex items-center gap-6">

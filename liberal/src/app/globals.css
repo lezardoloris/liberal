@@ -148,11 +148,11 @@
 
 @layer components {
   .card-hover-lift {
-    transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+    transition: transform 150ms ease-out, box-shadow 150ms ease-out, border-color 150ms ease-out;
   }
   .card-hover-lift:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.4);
   }
 }
 

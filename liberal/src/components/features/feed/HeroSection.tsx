@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
-import { Scissors, ChevronDown, X, PlusCircle } from 'lucide-react';
+import Image from 'next/image';
+import { ChevronDown, X, PlusCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { formatEUR, formatCompactNumber } from '@/lib/utils/format';
 import type { PlatformStats } from '@/lib/api/stats';
@@ -51,8 +52,8 @@ export function HeroSection({ stats }: HeroSectionProps) {
                         'transition-colors hover:bg-surface-elevated hover:text-text-secondary',
                     )}
                 >
-                    <Scissors className="size-3 text-chainsaw-red" aria-hidden="true" />
-                    <span>Tronçonnons les dépenses publiques.</span>
+                    <Image src="/logo.png" alt="" width={100} height={16} className="h-3 w-auto brightness-0 invert opacity-60" />
+                    <span>Tronçonnons les depenses publiques.</span>
                     <ChevronDown className="size-3" aria-hidden="true" />
                 </button>
             </div>
@@ -95,15 +96,13 @@ export function HeroSection({ stats }: HeroSectionProps) {
                     <div className="relative px-6 py-8 sm:px-8 sm:py-10">
                         {/* Top controls */}
                         <div className="mb-6 flex items-start justify-between gap-4">
-                            <div className="flex items-center gap-2">
-                                <Scissors
-                                    className="size-5 text-chainsaw-red sm:size-6"
-                                    aria-hidden="true"
-                                />
-                                <span className="text-xs font-semibold uppercase tracking-widest text-chainsaw-red">
-                                    C&apos;est Nicolas qui paye
-                                </span>
-                            </div>
+                            <Image
+                                src="/logo.png"
+                                alt="C'est Nicolas qui paie"
+                                width={140}
+                                height={24}
+                                className="h-5 w-auto brightness-0 invert opacity-60"
+                            />
                             <div className="flex items-center gap-1">
                                 <button
                                     onClick={() => setCollapsed(true)}
@@ -123,18 +122,14 @@ export function HeroSection({ stats }: HeroSectionProps) {
                         </div>
 
                         {/* Headline */}
-                        <h1 className="font-display text-3xl font-bold leading-tight tracking-tight text-text-primary sm:text-4xl md:text-5xl">
-                            Tronçonnons les{' '}
-                            <span className="text-chainsaw-red">dépenses publiques.</span>
+                        <h1 className="font-display text-4xl font-black leading-[0.95] tracking-tight text-text-primary sm:text-5xl md:text-6xl">
+                            TRONÇONNONS LES{' '}
+                            <span className="text-chainsaw-red">DEPENSES PUBLIQUES.</span>
                         </h1>
-                        <p className="mt-3 max-w-xl text-base leading-relaxed text-text-secondary sm:text-lg">
-                            Chaque euro compte.{' '}
-                            <span className="font-medium text-text-primary">Chaque citoyen aussi.</span>
-                            {' '}Chaque dépense{' '}
-                            <span className="inline-flex items-center gap-1 rounded-full bg-success/10 px-2 py-0.5 text-sm font-semibold text-success">
-                                ✓ sourcée
-                            </span>
-                            {' '}— éduquons-nous ensemble sur le vrai coût de l&apos;État.
+                        <p className="mt-4 max-w-xl text-base leading-relaxed text-text-secondary sm:text-lg">
+                            La plateforme citoyenne qui traque, documente et{' '}
+                            <span className="font-semibold text-text-primary">chiffre chaque gaspillage</span>{' '}
+                            de vos impots. Sources verifiees, montants par contribuable.
                         </p>
 
                         {/* CTAs */}
@@ -215,8 +210,8 @@ export function HeroSection({ stats }: HeroSectionProps) {
                         )}
                     >
                         <span className="flex items-center gap-2">
-                            <Scissors className="size-4 text-chainsaw-red" aria-hidden="true" />
-                            <span className="font-medium">Tronçonnons les dépenses publiques.</span>
+                            <Image src="/logo.png" alt="" width={120} height={20} className="h-4 w-auto brightness-0 invert opacity-60" />
+                            <span className="font-medium">Tronçonnons les depenses publiques.</span>
                             <span className="hidden text-text-muted sm:inline">
                                 — Chaque euro compte. Chaque citoyen aussi.
                             </span>

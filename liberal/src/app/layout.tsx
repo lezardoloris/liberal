@@ -5,6 +5,7 @@ import './globals.css';
 import Providers from '@/components/layout/Providers';
 import DesktopNav from '@/components/layout/DesktopNav';
 import MobileTabBar from '@/components/layout/MobileTabBar';
+import MobileHeader from '@/components/layout/MobileHeader';
 import Footer from '@/components/layout/Footer';
 import WelcomePromptWrapper from '@/components/features/auth/WelcomePromptWrapper';
 import FlashMessage from '@/components/features/common/FlashMessage';
@@ -67,6 +68,7 @@ export default function RootLayout({
             Aller au contenu principal
           </a>
           <DesktopNav />
+          <MobileHeader />
           <div className="min-h-screen pb-20 md:pb-0">{children}</div>
           <Footer />
           <MobileTabBar />

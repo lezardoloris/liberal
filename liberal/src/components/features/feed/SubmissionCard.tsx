@@ -7,14 +7,12 @@ import {
   formatEUR,
   formatEURPrecise,
   formatRelativeTime,
-  extractDomain,
   truncate,
 } from '@/lib/utils/format';
 import { VoteButtonInline } from '@/components/features/voting/VoteButtonInline';
 import { ShareButton } from '@/components/features/sharing/ShareButton';
 import { SourceBadge } from '@/components/features/sources/SourceBadge';
 import { PinnedNote } from '@/components/features/notes/PinnedNote';
-import { Badge } from '@/components/ui/badge';
 import { MessageSquare } from 'lucide-react';
 import { getCategoryDef } from '@/lib/constants/categories';
 import type { SubmissionCardData } from '@/types/submission';
@@ -24,18 +22,19 @@ interface SubmissionCardProps {
   index?: number;
 }
 
-function getOutrageTierBorderColor(costPerTaxpayer: string | null): string {
-  if (!costPerTaxpayer) return 'border-l-border-default';
+function getOutrageTier(costPerTaxpayer: string | null): { border: string; bg: string } {
+  if (!costPerTaxpayer) return { border: 'border-l-border-default', bg: '' };
   const cost = parseFloat(costPerTaxpayer);
-  if (cost >= 10) return 'border-l-chainsaw-red';
-  if (cost >= 1) return 'border-l-warning';
-  if (cost >= 0.1) return 'border-l-info';
-  return 'border-l-text-muted';
+  if (cost >= 10) return { border: 'border-l-chainsaw-red', bg: 'bg-chainsaw-red/[0.03]' };
+  if (cost >= 1) return { border: 'border-l-warning', bg: 'bg-warning/[0.03]' };
+  if (cost >= 0.1) return { border: 'border-l-info', bg: '' };
+  return { border: 'border-l-text-muted', bg: '' };
 }
 
 export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
   const score = submission.upvoteCount - submission.downvoteCount;
   const category = getCategoryDef(submission.ministryTag);
+  const outrage = getOutrageTier(submission.costPerTaxpayer);
 
   return (
     <motion.article
@@ -45,27 +44,29 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
       role="article"
       aria-label={`${submission.title}, score: ${score}, cout: ${formatEUR(submission.amount)}`}
       className={cn(
-        'group rounded-lg border border-border-default bg-surface-secondary',
+        'group rounded-lg border border-border-default',
+        'bg-surface-secondary',
+        outrage.bg,
         'transition-all duration-200 hover:bg-surface-elevated hover:border-border-default/80',
-        'border-l-4',
+        'border-l-[5px]',
         'card-hover-lift',
-        getOutrageTierBorderColor(submission.costPerTaxpayer),
+        outrage.border,
       )}
     >
       <div className="space-y-3 p-4">
         {/* Row 1: Metadata */}
         <div className="flex items-center gap-2 text-xs text-text-muted">
           {category && (
-            <Badge
-              variant="outline"
+            <span
               className={cn(
-                'px-1.5 py-0 text-[10px] leading-5 border-border-default/50',
+                'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold leading-4',
                 category.color,
+                category.bgColor,
               )}
             >
-              <category.icon className="mr-0.5 size-3" aria-hidden="true" />
+              <category.icon className="size-3" aria-hidden="true" />
               {category.label}
-            </Badge>
+            </span>
           )}
           <SourceBadge
             sourceUrl={submission.sourceUrl}
@@ -142,15 +143,15 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
 
           <div className="flex-1" />
 
-          <span className="inline-flex items-center rounded-full bg-chainsaw-red/10 px-2.5 py-1 text-xs font-bold tabular-nums text-chainsaw-red">
-            {formatEUR(submission.amount)}
-          </span>
-
           {submission.costPerTaxpayer && (
-            <span className="inline-flex items-center rounded-full bg-warning/10 px-2 py-0.5 text-[11px] font-semibold tabular-nums text-warning">
+            <span className="inline-flex items-center rounded-full bg-warning/15 px-2.5 py-1 text-xs font-bold tabular-nums text-warning">
               {formatEURPrecise(submission.costPerTaxpayer)}/citoyen
             </span>
           )}
+
+          <span className="inline-flex items-center rounded-full bg-chainsaw-red/10 px-3 py-1 text-sm font-black tabular-nums text-chainsaw-red">
+            {formatEUR(submission.amount)}
+          </span>
         </div>
       </div>
     </motion.article>

@@ -27,7 +27,7 @@ export function LeaderboardPageClient() {
       {/* Header */}
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-black tracking-tight text-text-primary md:text-4xl">
-          <Trophy className="inline-block size-8 text-yellow-400 mr-2 -mt-1" aria-hidden="true" />
+          <Trophy className="inline-block size-8 text-chainsaw-red mr-2 -mt-1" aria-hidden="true" />
           La Tronconneuse d&apos;Or
         </h1>
         <p className="text-sm text-text-muted max-w-lg mx-auto">
@@ -83,25 +83,25 @@ export function LeaderboardPageClient() {
                 <span>Signalement publie</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="inline-flex size-8 items-center justify-center rounded-full bg-info/10 text-xs font-bold text-info">
+                <span className="inline-flex size-8 items-center justify-center rounded-full bg-chainsaw-red/10 text-xs font-bold text-chainsaw-red">
                   +20
                 </span>
                 <span>Source ajoutee</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="inline-flex size-8 items-center justify-center rounded-full bg-warning/10 text-xs font-bold text-warning">
+                <span className="inline-flex size-8 items-center justify-center rounded-full bg-chainsaw-red/10 text-xs font-bold text-chainsaw-red">
                   +15
                 </span>
                 <span>Note de communaute</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="inline-flex size-8 items-center justify-center rounded-full bg-purple-500/10 text-xs font-bold text-purple-400">
+                <span className="inline-flex size-8 items-center justify-center rounded-full bg-chainsaw-red/10 text-xs font-bold text-chainsaw-red">
                   +10
                 </span>
                 <span>Bonus quotidien (serie)</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="inline-flex size-8 items-center justify-center rounded-full bg-green-500/10 text-xs font-bold text-green-400">
+                <span className="inline-flex size-8 items-center justify-center rounded-full bg-surface-elevated text-xs font-bold text-text-secondary">
                   +5
                 </span>
                 <span>Commentaire ou partage</span>

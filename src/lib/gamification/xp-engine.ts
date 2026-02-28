@@ -19,6 +19,8 @@ export interface XpAwardResult {
   dailyBonusXp: number;
   newBadges: string[];
   streakFreezeEarned: boolean;
+  antiGamingApplied: boolean;
+  sessionCooldown: boolean;
 }
 
 /**
@@ -113,6 +115,8 @@ export async function awardXp(
     dailyBonusXp: 0,
     newBadges: [],
     streakFreezeEarned: false,
+    antiGamingApplied: false,
+    sessionCooldown: false,
   };
 
   try {
@@ -132,7 +136,33 @@ export async function awardXp(
       }
     }
 
-    // 2. Determine XP amount
+    // 2. Anti-gaming check
+    if (actionType !== 'admin_manual' && actionType !== 'clawback' && actionType !== 'daily_bonus') {
+      const { checkAntiGaming, getSessionXpTotal } = await import('./anti-gaming');
+      const antiGamingResult = await checkAntiGaming(userId, actionType, relatedEntityId);
+      if (!antiGamingResult.allowed) {
+        const [user] = await db
+          .select({ totalXp: users.totalXp, currentStreak: users.currentStreak })
+          .from(users)
+          .where(eq(users.id, userId))
+          .limit(1);
+        result.totalXp = user?.totalXp ?? 0;
+        result.currentStreak = user?.currentStreak ?? 0;
+        result.antiGamingApplied = true;
+        return result;
+      }
+      if (antiGamingResult.xpMultiplier < 1) {
+        result.antiGamingApplied = true;
+      }
+
+      // Check session cooldown (>500 XP in 4 hours)
+      const sessionTotal = await getSessionXpTotal(userId);
+      if (sessionTotal > 500) {
+        result.sessionCooldown = true;
+      }
+    }
+
+    // 3. Determine XP amount
     const config = XP_TABLE[actionType];
     const xpAmount = customAmount ?? config.xp;
 

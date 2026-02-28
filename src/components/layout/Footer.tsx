@@ -20,7 +20,7 @@ export default function Footer() {
           avis juridique ou financier.
         </p>
         <p>
-          <a href="/methodology" className="underline hover:text-text-secondary">
+          <a href="/methodologie" className="underline hover:text-text-secondary">
             Méthodologie et sources
           </a>
         </p>

@@ -52,7 +52,13 @@ export const users = pgTable('users', {
   lastActiveDate: date('last_active_date'),
   streakFreezeCount: integer('streak_freeze_count').notNull().default(0),
   dailyGoal: integer('daily_goal').notNull().default(20),
+  reposDaysUsedThisMonth: integer('repos_days_used_this_month').notNull().default(0),
   leagueOptOut: boolean('league_opt_out').notNull().default(false),
+  // ─── Privacy settings ───
+  showXpPublicly: boolean('show_xp_publicly').notNull().default(false),
+  showLevelPublicly: boolean('show_level_publicly').notNull().default(false),
+  showStreakPublicly: boolean('show_streak_publicly').notNull().default(false),
+  showBadgesPublicly: boolean('show_badges_publicly').notNull().default(false),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
   deletedAt: timestamp('deleted_at'),
@@ -860,6 +866,40 @@ export const userBadgesRelations = relations(userBadges, ({ one }) => ({
   }),
 }));
 
+// ─── Anti-Gaming Events ─────────────────────────────────────────────
+export const antiGamingEventType = pgEnum('anti_gaming_event_type', [
+  'excessive_votes',
+  'rapid_same_target',
+  'daily_outlier',
+  'reciprocal_decay',
+  'session_cooldown',
+]);
+
+export const antiGamingEvents = pgTable(
+  'anti_gaming_events',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    eventType: antiGamingEventType('event_type').notNull(),
+    details: jsonb('details'),
+    actionTaken: varchar('action_taken', { length: 100 }),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+  },
+  (table) => [
+    index('idx_anti_gaming_events_user').on(table.userId),
+    index('idx_anti_gaming_events_type').on(table.eventType, table.createdAt),
+  ],
+);
+
+export const antiGamingEventsRelations = relations(antiGamingEvents, ({ one }) => ({
+  user: one(users, {
+    fields: [antiGamingEvents.userId],
+    references: [users.id],
+  }),
+}));
+
 // ─── Type Exports ──────────────────────────────────────────────────
 export type Submission = typeof submissions.$inferSelect;
 export type NewSubmission = typeof submissions.$inferInsert;
@@ -892,3 +932,4 @@ export type XpEvent = typeof xpEvents.$inferSelect;
 export type NewXpEvent = typeof xpEvents.$inferInsert;
 export type BadgeDefinition = typeof badgeDefinitions.$inferSelect;
 export type UserBadge = typeof userBadges.$inferSelect;
+export type AntiGamingEvent = typeof antiGamingEvents.$inferSelect;

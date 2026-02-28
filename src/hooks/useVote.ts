@@ -2,12 +2,14 @@
 
 import { useVoteStore } from '@/stores/vote-store';
 import { useMutation } from '@tanstack/react-query';
+import { useXpResponse } from '@/hooks/useXpResponse';
 
 export function useVote(
   submissionId: string,
   serverCounts: { up: number; down: number },
 ) {
   const { setVote, setCounts, getVote, getCounts } = useVoteStore();
+  const { processXpResponse } = useXpResponse();
 
   // Use cache if available, fallback to server data
   const currentVote = getVote(submissionId);
@@ -66,6 +68,7 @@ export function useVote(
         );
         setVote(submissionId, data.data.userVote);
       }
+      processXpResponse(data);
     },
   });
 

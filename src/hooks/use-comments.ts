@@ -2,6 +2,7 @@
 
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { useXpResponse } from '@/hooks/useXpResponse';
 
 interface CommentData {
   id: string;
@@ -34,6 +35,7 @@ interface CommentsResponse {
 
 export function useComments(submissionId: string, sort: 'best' | 'newest' = 'best') {
   const queryClient = useQueryClient();
+  const { processXpResponse } = useXpResponse();
 
   const query = useInfiniteQuery({
     queryKey: ['comments', submissionId, sort],
@@ -74,9 +76,10 @@ export function useComments(submissionId: string, sort: 'best' | 'newest' = 'bes
       }
       return res.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['comments', submissionId] });
       toast.success('Commentaire publie');
+      processXpResponse(data);
     },
     onError: (error: Error) => {
       toast.error(error.message);

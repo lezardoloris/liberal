@@ -45,7 +45,7 @@ export function HeroSection({ stats }: HeroSectionProps) {
           <div
             className="absolute -bottom-8 -left-8 size-48 rounded-full opacity-10 blur-2xl"
             aria-hidden="true"
-            style={{ background: 'radial-gradient(circle, #E8A317 0%, transparent 70%)' }}
+            style={{ background: 'radial-gradient(circle, #C62828 0%, transparent 70%)' }}
           />
 
           <div className="relative px-5 py-5 sm:px-6 sm:py-6">
@@ -72,7 +72,7 @@ export function HeroSection({ stats }: HeroSectionProps) {
                 <p className="text-text-muted text-[10px] sm:text-xs">documentés</p>
               </div>
               <div>
-                <p className="font-display text-warning text-xl font-bold tabular-nums sm:text-2xl">
+                <p className="font-display text-chainsaw-red/80 text-xl font-bold tabular-nums sm:text-2xl">
                   {stats ? formatCompactEUR(stats.costPerTaxpayer) : '--'}
                 </p>
                 <p className="text-text-muted text-[10px] sm:text-xs">par contribuable</p>
@@ -105,7 +105,7 @@ export function HeroSection({ stats }: HeroSectionProps) {
                   href="https://github.com/lezardoloris/CestNicolasQuiPaye"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-info decoration-info/30 hover:text-info/80 font-medium underline"
+                  className="text-text-secondary decoration-text-muted/30 hover:text-text-primary font-medium underline"
                 >
                   Proposer une amélioration
                 </a>

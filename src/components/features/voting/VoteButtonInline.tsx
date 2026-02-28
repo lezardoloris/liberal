@@ -30,8 +30,8 @@ export function VoteButtonInline({
       className={cn(
         'inline-flex items-center gap-0 rounded-full',
         'transition-colors',
-        activeVote === 'up' && 'bg-success/10',
-        activeVote === 'down' && 'bg-chainsaw-red/10',
+        activeVote === 'up' && 'bg-chainsaw-red/10',
+        activeVote === 'down' && 'bg-surface-elevated',
         !activeVote && 'bg-surface-elevated/50',
       )}
       role="group"
@@ -50,10 +50,10 @@ export function VoteButtonInline({
         className={cn(
           'inline-flex items-center justify-center rounded-full p-1.5',
           'transition-colors',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-success',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-chainsaw-red',
           activeVote === 'up'
-            ? 'text-success'
-            : 'text-text-muted hover:text-success/70 hover:bg-success/10',
+            ? 'text-chainsaw-red'
+            : 'text-text-muted hover:text-chainsaw-red/70 hover:bg-chainsaw-red/10',
         )}
       >
         <ArrowBigUp
@@ -73,8 +73,8 @@ export function VoteButtonInline({
           aria-atomic="true"
           className={cn(
             'min-w-[2ch] text-center text-xs font-bold tabular-nums',
-            activeVote === 'up' && 'text-success',
-            activeVote === 'down' && 'text-chainsaw-red',
+            activeVote === 'up' && 'text-chainsaw-red',
+            activeVote === 'down' && 'text-text-muted',
             !activeVote && 'text-text-secondary',
           )}
         >
@@ -97,8 +97,8 @@ export function VoteButtonInline({
           'transition-colors',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-chainsaw-red',
           activeVote === 'down'
-            ? 'text-chainsaw-red'
-            : 'text-text-muted hover:text-chainsaw-red/70 hover:bg-chainsaw-red/10',
+            ? 'text-text-secondary'
+            : 'text-text-muted hover:text-text-secondary hover:bg-surface-elevated',
         )}
       >
         <ArrowBigDown

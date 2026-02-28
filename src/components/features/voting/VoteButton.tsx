@@ -42,10 +42,10 @@ export function VoteButton({
         aria-pressed={activeVote === 'up'}
         className={cn(
           'min-h-12 min-w-12 rounded-md p-2 transition-colors',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-success focus-visible:ring-offset-2 focus-visible:ring-offset-surface-primary',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-chainsaw-red focus-visible:ring-offset-2 focus-visible:ring-offset-surface-primary',
           activeVote === 'up'
-            ? 'text-success'
-            : 'text-text-muted hover:text-success/60',
+            ? 'text-chainsaw-red'
+            : 'text-text-muted hover:text-chainsaw-red/60',
         )}
       >
         <ArrowUp className="h-6 w-6" aria-hidden="true" />
@@ -56,8 +56,8 @@ export function VoteButton({
         aria-atomic="true"
         className={cn(
           'text-sm font-semibold tabular-nums',
-          activeVote === 'up' && 'text-success',
-          activeVote === 'down' && 'text-chainsaw-red',
+          activeVote === 'up' && 'text-chainsaw-red',
+          activeVote === 'down' && 'text-text-muted',
           !activeVote && 'text-text-secondary',
         )}
       >
@@ -78,8 +78,8 @@ export function VoteButton({
           'min-h-12 min-w-12 rounded-md p-2 transition-colors',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-chainsaw-red focus-visible:ring-offset-2 focus-visible:ring-offset-surface-primary',
           activeVote === 'down'
-            ? 'text-chainsaw-red'
-            : 'text-text-muted hover:text-chainsaw-red/60',
+            ? 'text-text-secondary'
+            : 'text-text-muted hover:text-text-secondary',
         )}
       >
         <ArrowDown className="h-6 w-6" aria-hidden="true" />

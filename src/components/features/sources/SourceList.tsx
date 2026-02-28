@@ -14,19 +14,8 @@ interface SourceListProps {
   submissionId: string;
 }
 
-function getSourceTypeColor(type: SourceType): string {
-  switch (type) {
-    case 'official_report':
-      return 'text-success border-success/30';
-    case 'parliamentary':
-      return 'text-info border-info/30';
-    case 'press_article':
-      return 'text-warning border-warning/30';
-    case 'think_tank':
-      return 'text-purple-400 border-purple-400/30';
-    default:
-      return 'text-text-muted border-border-default';
-  }
+function getSourceTypeColor(_type: SourceType): string {
+  return 'text-text-secondary border-border-default';
 }
 
 export function SourceList({ submissionId }: SourceListProps) {
@@ -36,11 +25,11 @@ export function SourceList({ submissionId }: SourceListProps) {
   return (
     <section className="space-y-4">
       <div className="flex items-center gap-2">
-        <FileText className="size-5 text-info" aria-hidden="true" />
+        <FileText className="size-5 text-text-muted" aria-hidden="true" />
         <h2 className="text-base font-semibold text-text-primary">
           Sources & verification
         </h2>
-        <span className="rounded-full bg-info/10 px-2 py-0.5 text-xs font-medium text-info">
+        <span className="rounded-full bg-surface-elevated px-2 py-0.5 text-xs font-medium text-text-secondary">
           {sources.length}
         </span>
       </div>
@@ -95,7 +84,7 @@ export function SourceList({ submissionId }: SourceListProps) {
                   <button
                     onClick={() => validateSource({ sourceId: source.id, isValid: true })}
                     disabled={isValidating}
-                    className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-[11px] text-text-muted transition-colors hover:bg-success/10 hover:text-success disabled:opacity-50"
+                    className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-[11px] text-text-muted transition-colors hover:bg-chainsaw-red/10 hover:text-chainsaw-red disabled:opacity-50"
                     aria-label="Valider cette source"
                   >
                     <ThumbsUp className="size-3" aria-hidden="true" />

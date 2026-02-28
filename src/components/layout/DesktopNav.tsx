@@ -16,6 +16,7 @@ import { User, Settings, LogOut } from 'lucide-react';
 import { resolveDisplayName } from '@/lib/utils/user-display';
 import { XpProgressBar } from '@/components/features/gamification/XpProgressBar';
 import { StreakBadge } from '@/components/features/gamification/StreakBadge';
+import { DailyGoalIndicator } from '@/components/features/gamification/DailyGoalIndicator';
 
 const navLinks = [
   { href: '/feed/hot', label: 'Feed' },
@@ -38,7 +39,7 @@ export default function DesktopNav() {
     <header className="hidden md:flex sticky top-0 z-50 h-16 items-center justify-between border-b border-border-default bg-surface-primary/80 backdrop-blur-sm px-6">
       <Link
         href="/feed/hot"
-        className="flex items-center gap-3"
+        className="flex flex-col items-start gap-0"
         aria-label="C'est Nicolas qui paye - accueil"
       >
         <Image
@@ -49,6 +50,9 @@ export default function DesktopNav() {
           className="h-[2.1rem] w-auto"
           priority
         />
+        <span className="text-[0.6rem] leading-tight tracking-wide text-text-muted pl-0.5">
+          Tronçonnons les dépenses publiques
+        </span>
       </Link>
 
       <nav className="flex items-center gap-6">
@@ -69,6 +73,7 @@ export default function DesktopNav() {
       {isAuthenticated ? (
         <div className="flex items-center gap-3">
           <XpProgressBar />
+          <DailyGoalIndicator />
           <StreakBadge />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

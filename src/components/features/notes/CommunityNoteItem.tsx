@@ -28,22 +28,22 @@ export function CommunityNoteItem({ note, onVote, isVoting }: CommunityNoteItemP
       className={cn(
         'rounded-lg border-l-4 p-3',
         note.isPinned
-          ? 'border-l-warning bg-warning/5 border border-warning/20'
-          : 'border-l-info bg-info/5 border border-info/20',
+          ? 'border-l-chainsaw-red bg-chainsaw-red/5 border border-chainsaw-red/20'
+          : 'border-l-border-default bg-surface-secondary border border-border-default',
       )}
     >
       <div className="flex items-start gap-2">
         <BookOpen
-          className={cn('mt-0.5 size-3.5 shrink-0', note.isPinned ? 'text-warning' : 'text-info')}
+          className={cn('mt-0.5 size-3.5 shrink-0', note.isPinned ? 'text-chainsaw-red' : 'text-text-muted')}
           aria-hidden="true"
         />
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <span className={cn('text-[11px] font-semibold', note.isPinned ? 'text-warning' : 'text-info')}>
+            <span className={cn('text-[11px] font-semibold', note.isPinned ? 'text-chainsaw-red' : 'text-text-secondary')}>
               Note de contexte
             </span>
             {note.isPinned === 1 && (
-              <span className="inline-flex items-center gap-0.5 rounded-full bg-warning/10 px-1.5 py-0 text-[10px] font-semibold text-warning">
+              <span className="inline-flex items-center gap-0.5 rounded-full bg-chainsaw-red/10 px-1.5 py-0 text-[10px] font-semibold text-chainsaw-red">
                 <Pin className="size-2.5" aria-hidden="true" />
                 Epinglee
               </span>
@@ -59,7 +59,7 @@ export function CommunityNoteItem({ note, onVote, isVoting }: CommunityNoteItemP
               href={note.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-1 inline-flex items-center gap-1 text-xs text-info hover:underline"
+              className="mt-1 inline-flex items-center gap-1 text-xs text-text-secondary hover:underline"
             >
               Source
               <ExternalLink className="size-3" aria-hidden="true" />
@@ -76,7 +76,7 @@ export function CommunityNoteItem({ note, onVote, isVoting }: CommunityNoteItemP
             <button
               onClick={() => onVote(true)}
               disabled={isVoting}
-              className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 transition-colors hover:bg-success/10 hover:text-success disabled:opacity-50"
+              className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 transition-colors hover:bg-chainsaw-red/10 hover:text-chainsaw-red disabled:opacity-50"
               aria-label="Utile"
             >
               <ThumbsUp className="size-3" aria-hidden="true" />

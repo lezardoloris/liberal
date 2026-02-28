@@ -17,6 +17,8 @@ export interface SubmissionCardData {
   ministryTag: string | null;
   sourceCount?: number;
   pinnedNoteBody?: string | null;
+  authorLevel?: number | null;
+  authorStreak?: number | null;
 }
 
 export interface SubmissionDetailData extends SubmissionCardData {

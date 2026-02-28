@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
+import { useXpResponse } from '@/hooks/useXpResponse';
 import {
   buildShareText,
   buildSubmissionUrl,
@@ -24,20 +25,25 @@ interface UseShareOptions {
 
 export function useShare({ submissionId, title, costPerTaxpayer }: UseShareOptions) {
   const [isSharing, setIsSharing] = useState(false);
+  const { processXpResponse } = useXpResponse();
 
   const trackShare = useCallback(
     async (platform: SharePlatform) => {
       try {
-        await fetch(`/api/submissions/${submissionId}/share`, {
+        const res = await fetch(`/api/submissions/${submissionId}/share`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ platform }),
         });
+        if (res.ok) {
+          const data = await res.json();
+          processXpResponse(data);
+        }
       } catch {
         // Silently fail tracking - do not block user experience
       }
     },
-    [submissionId]
+    [submissionId, processXpResponse]
   );
 
   const shareText = buildShareText(title, costPerTaxpayer ?? 0);

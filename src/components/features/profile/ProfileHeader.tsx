@@ -60,11 +60,9 @@ export default function ProfileHeader({
                 <span className="text-text-muted/40">·</span>
                 <Flame
                   className={`size-3.5 ${
-                    profile.currentStreak >= 30
-                      ? 'text-orange-400'
-                      : profile.currentStreak >= 7
-                        ? 'text-yellow-400'
-                        : 'text-text-muted'
+                    profile.currentStreak >= 7
+                      ? 'text-chainsaw-red'
+                      : 'text-text-muted'
                   }`}
                 />
                 <span className="tabular-nums text-text-secondary">

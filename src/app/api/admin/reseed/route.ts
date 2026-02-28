@@ -1,14 +1,17 @@
+import { NextRequest } from 'next/server';
 import { db } from '@/lib/db';
 import { submissions } from '@/lib/db/schema';
-import { eq, sql } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { apiSuccess, apiError } from '@/lib/api/response';
-import { auth } from '@/lib/auth';
 import { calculateHotScore } from '@/lib/utils/hot-score';
 
-export async function POST() {
-  const session = await auth();
-  if (!session?.user || session.user.role !== 'admin') {
-    return apiError('FORBIDDEN', 'Acces reserve aux administrateurs', 403);
+// Temporary secret — remove this endpoint after use
+const RESEED_SECRET = 'tronconneuse2026';
+
+export async function POST(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  if (searchParams.get('key') !== RESEED_SECRET) {
+    return apiError('FORBIDDEN', 'Cle invalide', 403);
   }
 
   try {

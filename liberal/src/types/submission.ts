@@ -15,6 +15,8 @@ export interface SubmissionCardData {
   createdAt: Date | string;
   costToNicolasResults: CostToNicolasResults | null;
   ministryTag: string | null;
+  sourceCount?: number;
+  pinnedNoteBody?: string | null;
 }
 
 export interface SubmissionDetailData extends SubmissionCardData {

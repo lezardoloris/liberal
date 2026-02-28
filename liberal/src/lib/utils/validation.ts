@@ -217,6 +217,63 @@ export const featureVoteStatusUpdateSchema = z
 
 export type FeatureVoteStatusUpdateData = z.infer<typeof featureVoteStatusUpdateSchema>;
 
+// ─── Source Validation ────────────────────────────────────────────
+
+export const SOURCE_TYPES = ['official_report', 'press_article', 'think_tank', 'parliamentary', 'other'] as const;
+export type SourceType = (typeof SOURCE_TYPES)[number];
+
+export const SOURCE_TYPE_LABELS: Record<SourceType, string> = {
+  official_report: 'Rapport officiel',
+  press_article: 'Article de presse',
+  think_tank: 'Think tank',
+  parliamentary: 'Source parlementaire',
+  other: 'Autre',
+};
+
+export const addSourceSchema = z.object({
+  url: z
+    .string()
+    .min(1, 'Le lien est obligatoire')
+    .url('URL invalide')
+    .regex(/^https?:\/\//, 'URL doit commencer par http:// ou https://'),
+  title: z
+    .string()
+    .min(3, 'Le titre doit contenir au moins 3 caracteres')
+    .max(300, 'Le titre ne doit pas depasser 300 caracteres'),
+  sourceType: z.enum(SOURCE_TYPES, { message: 'Type de source invalide' }),
+});
+
+export type AddSourceData = z.infer<typeof addSourceSchema>;
+
+export const validateSourceSchema = z.object({
+  isValid: z.boolean(),
+});
+
+export type ValidateSourceData = z.infer<typeof validateSourceSchema>;
+
+// ─── Community Note Validation ───────────────────────────────────
+
+export const createCommunityNoteSchema = z.object({
+  body: z
+    .string()
+    .min(10, 'La note doit contenir au moins 10 caracteres')
+    .max(500, 'La note ne doit pas depasser 500 caracteres')
+    .transform((val) => val.trim()),
+  sourceUrl: z
+    .string()
+    .url('URL invalide')
+    .optional()
+    .or(z.literal('')),
+});
+
+export type CreateCommunityNoteData = z.infer<typeof createCommunityNoteSchema>;
+
+export const communityNoteVoteSchema = z.object({
+  isUseful: z.boolean(),
+});
+
+export type CommunityNoteVoteData = z.infer<typeof communityNoteVoteSchema>;
+
 // ─── Solution Validation ──────────────────────────────────────────
 export const createSolutionSchema = z.object({
   body: z

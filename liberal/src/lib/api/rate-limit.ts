@@ -47,6 +47,14 @@ export const rateLimiters = {
     Ratelimit.slidingWindow(60, '1m'),
     'ratelimit:api',
   ),
+  source: createRateLimiter(
+    Ratelimit.slidingWindow(10, '1h'),
+    'ratelimit:source',
+  ),
+  communityNote: createRateLimiter(
+    Ratelimit.slidingWindow(5, '1h'),
+    'ratelimit:community-note',
+  ),
 };
 
 /**

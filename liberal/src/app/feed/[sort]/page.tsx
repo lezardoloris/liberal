@@ -4,6 +4,7 @@ import { TopTimeFilter } from '@/components/features/feed/TopTimeFilter';
 import { HeroSection } from '@/components/features/feed/HeroSection';
 import { FeedPageClient } from '@/components/features/feed/FeedPageClient';
 import { getSubmissions } from '@/lib/api/submissions';
+import { getPlatformStats } from '@/lib/api/stats';
 import { isValidSort } from '@/lib/utils/validation';
 import type { Metadata } from 'next';
 
@@ -66,14 +67,14 @@ export default async function FeedPage({ params, searchParams }: FeedPageProps) 
       ? (timeWindow as 'today' | 'week' | 'month' | 'all')
       : 'week';
 
-  const submissions = await getSubmissions({
-    sort,
-    timeWindow: validTimeWindow,
-  });
+  const [submissions, stats] = await Promise.all([
+    getSubmissions({ sort, timeWindow: validTimeWindow }),
+    getPlatformStats(),
+  ]);
 
   return (
     <main id="main-content" className="mx-auto max-w-3xl px-4 pb-20 md:pb-6">
-      <HeroSection />
+      <HeroSection stats={stats} />
 
       <FeedSortTabs activeSort={sort} />
 

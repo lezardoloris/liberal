@@ -1,7 +1,14 @@
 import { db } from '@/lib/db';
 import { submissions } from '@/lib/db/schema';
-import { desc, gt, gte, and, eq, sql, or } from 'drizzle-orm';
+import { desc, gt, gte, and, eq, sql, or, getTableColumns } from 'drizzle-orm';
 import type { SortType } from '@/lib/utils/validation';
+
+// Subqueries for feed enrichment (sources + community notes)
+const feedSelect = {
+  ...getTableColumns(submissions),
+  sourceCount: sql<number>`(SELECT count(*) FROM submission_sources WHERE submission_id = ${submissions.id})`.as('source_count'),
+  pinnedNoteBody: sql<string | null>`(SELECT body FROM community_notes WHERE submission_id = ${submissions.id} AND is_pinned = 1 ORDER BY pinned_at DESC LIMIT 1)`.as('pinned_note_body'),
+};
 
 // ─── Cursor Encoding ──────────────────────────────────────────────
 
@@ -91,7 +98,7 @@ async function getHotFeed({
   }
 
   const results = await db
-    .select()
+    .select(feedSelect)
     .from(submissions)
     .where(and(...conditions))
     .orderBy(desc(submissions.hotScore), desc(submissions.id))
@@ -121,7 +128,7 @@ async function getNewFeed({
   }
 
   const results = await db
-    .select()
+    .select(feedSelect)
     .from(submissions)
     .where(and(...conditions))
     .orderBy(desc(submissions.createdAt), desc(submissions.id))
@@ -159,7 +166,7 @@ async function getTopFeed({
   }
 
   const results = await db
-    .select()
+    .select(feedSelect)
     .from(submissions)
     .where(and(...conditions))
     .orderBy(

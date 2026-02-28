@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import { auth } from '@/lib/auth';
 import { db } from '@/lib/db';
-import { submissions } from '@/lib/db/schema';
+import { submissions, submissionSources } from '@/lib/db/schema';
 import { submissionFormSchema } from '@/lib/utils/validation';
 import { isTweetUrl, normalizeTweetUrl } from '@/lib/utils/tweet-detector';
 import { apiSuccess, apiError } from '@/lib/api/response';
@@ -68,6 +68,17 @@ export async function POST(request: NextRequest) {
         moderationStatus,
       })
       .returning();
+
+    // Auto-insert the initial source into submission_sources
+    if (sourceUrl) {
+      await db.insert(submissionSources).values({
+        submissionId: submission.id,
+        url: sourceUrl,
+        title: title.slice(0, 300),
+        sourceType: 'other',
+        addedBy: authorId,
+      }).onConflictDoNothing();
+    }
 
     return apiSuccess(submission, {}, 201);
   } catch (error) {

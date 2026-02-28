@@ -227,6 +227,8 @@ export const submissionsRelations = relations(submissions, ({ one, many }) => ({
   ipVotes: many(ipVotes),
   comments: many(comments),
   solutions: many(solutions),
+  sources: many(submissionSources),
+  communityNotes: many(communityNotes),
 }));
 
 export const votesRelations = relations(votes, ({ one }) => ({
@@ -487,6 +489,103 @@ export const broadcasts = pgTable(
   ]
 );
 
+// ─── Source Types ───────────────────────────────────────────────────
+export const sourceType = pgEnum('source_type', [
+  'official_report',
+  'press_article',
+  'think_tank',
+  'parliamentary',
+  'other',
+]);
+
+// ─── Submission Sources ─────────────────────────────────────────────
+export const submissionSources = pgTable(
+  'submission_sources',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    submissionId: uuid('submission_id')
+      .notNull()
+      .references(() => submissions.id, { onDelete: 'cascade' }),
+    url: text('url').notNull(),
+    title: varchar('title', { length: 300 }).notNull(),
+    sourceType: sourceType('source_type').notNull().default('other'),
+    addedBy: uuid('added_by').references(() => users.id, { onDelete: 'set null' }),
+    validationCount: integer('validation_count').notNull().default(0),
+    invalidationCount: integer('invalidation_count').notNull().default(0),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+  },
+  (table) => [
+    index('idx_submission_sources_submission').on(table.submissionId),
+    uniqueIndex('idx_submission_sources_url_submission').on(table.submissionId, table.url),
+  ]
+);
+
+// ─── Source Validations ─────────────────────────────────────────────
+export const sourceValidations = pgTable(
+  'source_validations',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    sourceId: uuid('source_id')
+      .notNull()
+      .references(() => submissionSources.id, { onDelete: 'cascade' }),
+    userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }),
+    ipHash: varchar('ip_hash', { length: 64 }),
+    isValid: integer('is_valid').notNull(),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex('idx_source_validations_user').on(table.userId, table.sourceId),
+    uniqueIndex('idx_source_validations_ip').on(table.ipHash, table.sourceId),
+    index('idx_source_validations_source').on(table.sourceId),
+  ]
+);
+
+// ─── Community Notes ────────────────────────────────────────────────
+export const communityNotes = pgTable(
+  'community_notes',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    submissionId: uuid('submission_id')
+      .notNull()
+      .references(() => submissions.id, { onDelete: 'cascade' }),
+    authorId: uuid('author_id').references(() => users.id, { onDelete: 'set null' }),
+    authorDisplay: varchar('author_display', { length: 100 }).notNull().default('Citoyen Anonyme'),
+    body: text('body').notNull(),
+    sourceUrl: text('source_url'),
+    upvoteCount: integer('upvote_count').notNull().default(0),
+    downvoteCount: integer('downvote_count').notNull().default(0),
+    isPinned: integer('is_pinned').notNull().default(0),
+    pinnedAt: timestamp('pinned_at'),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+    updatedAt: timestamp('updated_at').notNull().defaultNow(),
+    deletedAt: timestamp('deleted_at'),
+  },
+  (table) => [
+    index('idx_community_notes_submission').on(table.submissionId),
+    index('idx_community_notes_pinned').on(table.submissionId, table.isPinned),
+  ]
+);
+
+// ─── Community Note Votes ───────────────────────────────────────────
+export const communityNoteVotes = pgTable(
+  'community_note_votes',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    noteId: uuid('note_id')
+      .notNull()
+      .references(() => communityNotes.id, { onDelete: 'cascade' }),
+    userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }),
+    ipHash: varchar('ip_hash', { length: 64 }),
+    isUseful: integer('is_useful').notNull(),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex('idx_community_note_votes_user').on(table.userId, table.noteId),
+    uniqueIndex('idx_community_note_votes_ip').on(table.ipHash, table.noteId),
+    index('idx_community_note_votes_note').on(table.noteId),
+  ]
+);
+
 // ─── Feature Votes (Epic 7) ─────────────────────────────────────────
 export const featureVotes = pgTable(
   'feature_votes',
@@ -532,6 +631,53 @@ export const featureVoteBallots = pgTable(
     index('idx_feature_vote_ballots_feature_id').on(table.featureVoteId),
   ]
 );
+
+// ─── Source & Community Note Relations ───────────────────────────────
+export const submissionSourcesRelations = relations(submissionSources, ({ one, many }) => ({
+  submission: one(submissions, {
+    fields: [submissionSources.submissionId],
+    references: [submissions.id],
+  }),
+  addedByUser: one(users, {
+    fields: [submissionSources.addedBy],
+    references: [users.id],
+  }),
+  validations: many(sourceValidations),
+}));
+
+export const sourceValidationsRelations = relations(sourceValidations, ({ one }) => ({
+  source: one(submissionSources, {
+    fields: [sourceValidations.sourceId],
+    references: [submissionSources.id],
+  }),
+  user: one(users, {
+    fields: [sourceValidations.userId],
+    references: [users.id],
+  }),
+}));
+
+export const communityNotesRelations = relations(communityNotes, ({ one, many }) => ({
+  submission: one(submissions, {
+    fields: [communityNotes.submissionId],
+    references: [submissions.id],
+  }),
+  author: one(users, {
+    fields: [communityNotes.authorId],
+    references: [users.id],
+  }),
+  noteVotes: many(communityNoteVotes),
+}));
+
+export const communityNoteVotesRelations = relations(communityNoteVotes, ({ one }) => ({
+  note: one(communityNotes, {
+    fields: [communityNoteVotes.noteId],
+    references: [communityNotes.id],
+  }),
+  user: one(users, {
+    fields: [communityNoteVotes.userId],
+    references: [users.id],
+  }),
+}));
 
 // ─── Additional Relations ───────────────────────────────────────────
 export const commentVotesRelations = relations(commentVotes, ({ one }) => ({
@@ -619,3 +765,9 @@ export type Solution = typeof solutions.$inferSelect;
 export type NewSolution = typeof solutions.$inferInsert;
 export type SolutionVote = typeof solutionVotes.$inferSelect;
 export type NewSolutionVote = typeof solutionVotes.$inferInsert;
+export type SubmissionSource = typeof submissionSources.$inferSelect;
+export type NewSubmissionSource = typeof submissionSources.$inferInsert;
+export type SourceValidation = typeof sourceValidations.$inferSelect;
+export type CommunityNote = typeof communityNotes.$inferSelect;
+export type NewCommunityNote = typeof communityNotes.$inferInsert;
+export type CommunityNoteVote = typeof communityNoteVotes.$inferSelect;

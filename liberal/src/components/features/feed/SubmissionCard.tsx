@@ -12,6 +12,8 @@ import {
 } from '@/lib/utils/format';
 import { VoteButtonInline } from '@/components/features/voting/VoteButtonInline';
 import { ShareButton } from '@/components/features/sharing/ShareButton';
+import { SourceBadge } from '@/components/features/sources/SourceBadge';
+import { PinnedNote } from '@/components/features/notes/PinnedNote';
 import { Badge } from '@/components/ui/badge';
 import { MessageSquare } from 'lucide-react';
 import { getCategoryDef } from '@/lib/constants/categories';
@@ -65,7 +67,10 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
               {category.label}
             </Badge>
           )}
-          <span>{extractDomain(submission.sourceUrl)}</span>
+          <SourceBadge
+            sourceUrl={submission.sourceUrl}
+            sourceCount={submission.sourceCount}
+          />
           <span aria-hidden="true">&middot;</span>
           <time
             dateTime={
@@ -94,6 +99,11 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
             </p>
           )}
         </div>
+
+        {/* Pinned Community Note */}
+        {submission.pinnedNoteBody && (
+          <PinnedNote body={submission.pinnedNoteBody} />
+        )}
 
         {/* Row 3: Action Bar (Reddit-style) */}
         <div className="flex items-center gap-1 pt-1">
@@ -137,7 +147,7 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
           </span>
 
           {submission.costPerTaxpayer && (
-            <span className="hidden items-center text-[11px] tabular-nums text-text-muted sm:inline-flex">
+            <span className="inline-flex items-center rounded-full bg-warning/10 px-2 py-0.5 text-[11px] font-semibold tabular-nums text-warning">
               {formatEURPrecise(submission.costPerTaxpayer)}/citoyen
             </span>
           )}

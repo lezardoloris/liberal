@@ -8,6 +8,8 @@ import { ShareButton } from '@/components/features/sharing/ShareButton';
 import { CommentSection } from '@/components/features/comments/CommentSection';
 import { FlagButton } from '@/components/features/submissions/FlagButton';
 import { SolutionSection } from '@/components/features/solutions/SolutionSection';
+import { SourceList } from '@/components/features/sources/SourceList';
+import { CommunityNoteSection } from '@/components/features/notes/CommunityNoteSection';
 import { auth } from '@/lib/auth';
 import { isValidUUID } from '@/lib/utils/validation';
 import { hashIp } from '@/lib/utils/ip-hash';
@@ -114,6 +116,16 @@ export default async function SubmissionPage({ params }: SubmissionPageProps) {
           costPerTaxpayer={submission.costPerTaxpayer ? parseFloat(submission.costPerTaxpayer) : undefined}
         />
         <FlagButton submissionId={submission.id} />
+      </div>
+
+      {/* Sources & Verification */}
+      <div className="mt-8">
+        <SourceList submissionId={submission.id} />
+      </div>
+
+      {/* Community Notes */}
+      <div className="mt-8">
+        <CommunityNoteSection submissionId={submission.id} />
       </div>
 
       {/* Cost to Nicolas section */}

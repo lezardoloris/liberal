@@ -17,6 +17,7 @@ import { resolveDisplayName } from '@/lib/utils/user-display';
 const navLinks = [
   { href: '/feed/hot', label: 'Feed' },
   { href: '/submit', label: 'Signaler' },
+  { href: '/stats', label: 'Stats' },
   { href: '/contribuer', label: 'Contribuer' },
 ];
 

@@ -5,10 +5,16 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { Scissors, ChevronDown, X, PlusCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { formatEUR, formatCompactNumber } from '@/lib/utils/format';
+import type { PlatformStats } from '@/lib/api/stats';
 
 const STORAGE_KEY = 'np_hero_dismissed';
 
-export function HeroSection() {
+interface HeroSectionProps {
+    stats?: PlatformStats;
+}
+
+export function HeroSection({ stats }: HeroSectionProps) {
     const [dismissed, setDismissed] = useState<boolean | null>(null);
     const [collapsed, setCollapsed] = useState(false);
 
@@ -161,11 +167,32 @@ export function HeroSection() {
                             </a>
                         </div>
 
-                        {/* Stats strip */}
-                        <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 border-t border-border-default pt-4 text-xs text-text-muted">
-                            <span>🗳️ Vote anonyme — aucun compte requis</span>
-                            <span>🔓 100% open source (MIT)</span>
-                            <span>🇫🇷 Pour les citoyens français</span>
+                        {/* Dynamic KPIs */}
+                        <div className="mt-6 grid grid-cols-3 gap-4 border-t border-border-default pt-4">
+                            <div>
+                                <p className="font-display text-xl font-bold tabular-nums text-chainsaw-red sm:text-2xl">
+                                    {stats ? formatCompactNumber(stats.totalSubmissions) : '--'}
+                                </p>
+                                <p className="text-[11px] text-text-muted sm:text-xs">
+                                    depenses signalees
+                                </p>
+                            </div>
+                            <div>
+                                <p className="font-display text-xl font-bold tabular-nums text-warning sm:text-2xl">
+                                    {stats ? formatEUR(stats.totalAmountEur) : '--'}
+                                </p>
+                                <p className="text-[11px] text-text-muted sm:text-xs">
+                                    de gaspillages
+                                </p>
+                            </div>
+                            <div>
+                                <p className="font-display text-xl font-bold tabular-nums text-text-primary sm:text-2xl">
+                                    {stats ? formatCompactNumber(stats.totalUniqueVoters) : '--'}
+                                </p>
+                                <p className="text-[11px] text-text-muted sm:text-xs">
+                                    citoyens mobilises
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </motion.section>

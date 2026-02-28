@@ -33,19 +33,19 @@ export function HeroSection({ stats }: HeroSectionProps) {
             className="absolute inset-0 -z-10"
             aria-hidden="true"
             style={{
-              background: 'linear-gradient(135deg, #0F0F0F 0%, #1a0808 45%, #0F0F0F 100%)',
+              background: 'linear-gradient(135deg, #111318 0%, #1a1015 45%, #111318 100%)',
             }}
           />
           {/* Decorative blur blobs */}
           <div
             className="absolute -top-16 -right-16 size-64 rounded-full opacity-20 blur-3xl"
             aria-hidden="true"
-            style={{ background: 'radial-gradient(circle, #DC2626 0%, transparent 70%)' }}
+            style={{ background: 'radial-gradient(circle, #C62828 0%, transparent 70%)' }}
           />
           <div
             className="absolute -bottom-8 -left-8 size-48 rounded-full opacity-10 blur-2xl"
             aria-hidden="true"
-            style={{ background: 'radial-gradient(circle, #F59E0B 0%, transparent 70%)' }}
+            style={{ background: 'radial-gradient(circle, #E8A317 0%, transparent 70%)' }}
           />
 
           <div className="relative px-5 py-5 sm:px-6 sm:py-6">

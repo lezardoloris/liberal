@@ -37,7 +37,7 @@ export async function GET(
           style={{
             width: '1200px',
             height: '630px',
-            backgroundColor: '#0A0A0B',
+            backgroundColor: '#111318',
             display: 'flex',
             flexDirection: 'column',
             padding: '48px 56px',
@@ -55,7 +55,7 @@ export async function GET(
           >
             <span
               style={{
-                color: '#DC2626',
+                color: '#C62828',
                 fontSize: '36px',
                 fontWeight: 'bold',
                 letterSpacing: '-0.02em',
@@ -83,7 +83,7 @@ export async function GET(
           {/* Cost Amount */}
           <div
             style={{
-              color: '#DC2626',
+              color: '#C62828',
               fontSize: '56px',
               fontWeight: 'bold',
               marginBottom: '16px',
@@ -101,7 +101,7 @@ export async function GET(
                 marginBottom: '32px',
               }}
             >
-              Coute pour chaque Francais : {costPerCitizen}
+              Coûte pour chaque Français : {costPerCitizen}
             </div>
           )}
 
@@ -109,7 +109,7 @@ export async function GET(
           <div
             style={{
               height: '3px',
-              backgroundColor: '#DC2626',
+              backgroundColor: '#C62828',
               width: '100%',
               marginTop: 'auto',
               marginBottom: '16px',
@@ -125,8 +125,8 @@ export async function GET(
               justifyContent: 'space-between',
             }}
           >
-            <span>liberal.fr</span>
-            <span>Plateforme citoyenne de responsabilite fiscale</span>
+            <span>nicoquipaie.co</span>
+            <span>Plateforme citoyenne de responsabilité fiscale</span>
           </div>
         </div>
       ),

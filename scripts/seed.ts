@@ -421,6 +421,286 @@ const SEED_DATA: SeedItem[] = [
     sourceUrl: 'https://www.ccomptes.fr/fr/publications/pole-emploi',
     ministryTag: 'Travail',
   },
+
+  // ──────────────────────────────────────────────────────
+  // Signalements issus du rapport Gemini — sources doubles
+  // ──────────────────────────────────────────────────────
+
+  // === INSTITUTIONS ===
+  {
+    title: 'Budget de fonctionnement du CESE : 34,4 M\u20ac/an d\'auto-saisines',
+    description:
+      'Le CESE est vivement critiqué pour son manque d\'utilité publique : 79 % de ses rapports sont des auto-saisines pour justifier son existence. La Cour des comptes a également pointé le non-respect du temps de travail légal des agents.',
+    amount: 34_400_000,
+    sourceUrl: 'https://www.ccomptes.fr/sites/default/files/2025-07/20250711-S2025-0776-Conseil-economique-social-et-environnemental.pdf',
+    ministryTag: 'Institutions',
+  },
+  {
+    title: 'Coût de fonctionnement cumulé des CESER : 55 M\u20ac/an',
+    description:
+      'Les Conseils économiques, sociaux et environnementaux régionaux (CESER) coûtent entre 50 et 60 M\u20ac annuellement. Leur suppression, couplée à celle du CESE national, générerait jusqu\'à 95 M\u20ac d\'économies.',
+    amount: 55_000_000,
+    sourceUrl: 'https://www.ifrap.org/fonction-publique-et-administration/le-cese-sur-la-sellette',
+    ministryTag: 'Institutions',
+  },
+  {
+    title: 'Maintien des 317 Comités « Théodule » : 30 M\u20ac/an',
+    description:
+      'Instances consultatives redondantes (ex : Commission d\'enrichissement de la langue française en doublon avec l\'Académie). Leur coût stagne malgré les annonces politiques successives de suppression.',
+    amount: 30_000_000,
+    sourceUrl: 'https://www.ifrap.org/etat-et-collectivites/agnes-verdier-molinie-parmi-les-agences-de-letat-les-doublons-et-les-instances-inutiles-ont-la-peau-dure',
+    ministryTag: 'Institutions',
+  },
+  {
+    title: 'Maintien des 243 taxes à faible rendement : 307 M\u20ac/an de coût net',
+    description:
+      'La persistance de ces micro-taxes engendre des coûts de collecte et une complexité bureaucratique largement supérieurs aux bénéfices des recettes générées, pénalisant l\'administration et les entreprises.',
+    amount: 307_000_000,
+    sourceUrl: 'https://www.ccomptes.fr/sites/default/files/2025-04/20250417-Taxes-a-faible-rendement_0.pdf',
+    ministryTag: 'Institutions',
+  },
+
+  // === SANTÉ ===
+  {
+    title: 'Surcoût institutionnel des Agences de Santé : 4 Mds\u20ac/an',
+    description:
+      'Coût annuel massif dû à l\'empilement d\'agences (Anses, ANSM, HAS, SPF, ARS) créant un doublon flagrant de compétences avec la CNAM (72 200 agents) et le Ministère.',
+    amount: 4_000_000_000,
+    sourceUrl: 'https://www.senat.fr/fileadmin/Illustrations/Controle/Structures_temporaires/2024-2025/CE-Agences_Etat/TOME_I_-_Rapport_CE_Agences.pdf',
+    ministryTag: 'Sant\u00e9',
+  },
+  {
+    title: 'Fraude non recouvrée à l\'Assurance Maladie : 4,15 Mds\u20ac/an',
+    description:
+      'La fraude aux prestations (majoritairement le fait de professionnels de santé et d\'arrêts de travail) est estimée entre 3,8 et 4,5 Md\u20ac. Seuls 467 M\u20ac sont détectés et stoppés.',
+    amount: 4_150_000_000,
+    sourceUrl: 'https://www.ccomptes.fr/sites/default/files/2024-05/20240529-RALFSS-2024.pdf',
+    ministryTag: 'Sant\u00e9',
+  },
+  {
+    title: 'Hypertrophie administrative des ARS : 800 M\u20ac/an',
+    description:
+      'L\'existence de 8 000 agents dans les Agences Régionales de Santé en parallèle des structures territoriales de la Sécurité Sociale alourdit les coûts de pilotage de l\'hôpital public.',
+    amount: 800_000_000,
+    sourceUrl: 'https://www.assemblee-nationale.fr/dyn/opendata/PRJLANR5L15B3360.html',
+    ministryTag: 'Sant\u00e9',
+  },
+
+  // === SOCIAL ===
+  {
+    title: 'Fraudes avérées aux prestations de la branche Famille : 1 Md\u20ac/an',
+    description:
+      'Malgré 32 millions de contrôles ayant identifié 49 000 cas en 2024, les détournements restent massifs en raison de la complexité des critères d\'éligibilité au RSA et aux primes.',
+    amount: 1_000_000_000,
+    sourceUrl: 'https://www.ifrap.org/budget-et-fiscalite/fraudes-dans-la-branche-famille-des-resultats-2024-en-demi-teinte',
+    ministryTag: 'Social',
+  },
+  {
+    title: 'Gaspillages dans la sous-traitance de l\'Aide Sociale à l\'Enfance : 500 M\u20ac/an',
+    description:
+      'Les départements allouent des budgets colossaux à l\'ASE, mais l\'absence de contrôle sur les prestataires privés (hôtels sociaux, associations) entraîne une déperdition majeure de fonds publics.',
+    amount: 500_000_000,
+    sourceUrl: 'https://contribuablesassocies.org/categories/actualites/gaspillages-publics/',
+    ministryTag: 'Social',
+  },
+
+  // === NUMÉRIQUE ===
+  {
+    title: 'Surcoûts et dérive calendaire du projet SI-SAMU : 218 M\u20ac',
+    description:
+      'Lancé en 2014, le projet de modernisation des centres de régulation du 15 dérive sur un calendrier de 15,3 ans, rendant la technologie obsolète avant son déploiement.',
+    amount: 218_000_000,
+    sourceUrl: 'https://www.cio-online.com/actualites/lire-les-45-plus-grands-projets-it-de-l-etat-pesent-3-3-mdeteuro-16500.html',
+    ministryTag: 'Num\u00e9rique',
+  },
+  {
+    title: 'Risques budgétaires sur le Réseau Radio du Futur (RRF) : 900 M\u20ac',
+    description:
+      'Projet massif du ministère de l\'Intérieur, pointé pour sa complexité tentaculaire et l\'évitement prolongé des audits préalables de la DINUM. 8 ans de développement prévu.',
+    amount: 900_000_000,
+    sourceUrl: 'https://www.cio-online.com/actualites/lire-les-45-plus-grands-projets-it-de-l-etat-pesent-3-3-mdeteuro-16500.html',
+    ministryTag: 'Num\u00e9rique',
+  },
+  {
+    title: 'Dérapage du projet de Facturation Électronique (AIFE) : 259 M\u20ac',
+    description:
+      'Augmentation imprévue de 28 M\u20ac en six mois. Durée prévue de 8 ans avec de multiples reports d\'application, perturbant la visibilité des entreprises assujetties.',
+    amount: 259_000_000,
+    sourceUrl: 'https://www.cio-online.com/actualites/lire-les-45-plus-grands-projets-it-de-l-etat-pesent-3-3-mdeteuro-16500.html',
+    ministryTag: 'Num\u00e9rique',
+  },
+  {
+    title: 'Abandon définitif du logiciel Scribe : 13,3 M\u20ac perdus',
+    description:
+      'Logiciel de procédure pénale pour la Police nationale, soumis à l\'expertise de la DINUM avec quatre ans de retard. Abandonné en 2021, perte totale des fonds engagés.',
+    amount: 13_300_000,
+    sourceUrl: 'https://www.ccomptes.fr/system/files/2020-10/20201014-58-2-conduite-grands-projets-numeriques-Etat.pdf',
+    ministryTag: 'Num\u00e9rique',
+  },
+
+  // === TRANSPORT ===
+  {
+    title: 'Subventions aux 70 aéroports régionaux déficitaires : 140 M\u20ac/an',
+    description:
+      'Maintien artificiel d\'aéroports locaux (moins d\'1 M de passagers) au nom de l\'aménagement du territoire. Ces structures absorbent des fonds massifs sans perspective de rentabilité.',
+    amount: 140_000_000,
+    sourceUrl: 'https://www.apna-asso.com/les-dossiers/70-aeroports-regionaux-tres-defeicitaires-le-cas-daurillac',
+    ministryTag: 'Transport',
+  },
+  {
+    title: 'Déficit d\'exploitation de la liaison aérienne Aurillac-Paris : 5 M\u20ac/an',
+    description:
+      'Ligne massivement subventionnée au titre de l\'OSP. La subvention atteint 200 à 300 \u20ac d\'argent public par passager, contredisant toute logique économique et environnementale.',
+    amount: 5_000_000,
+    sourceUrl: 'https://www.apna-asso.com/les-dossiers/70-aeroports-regionaux-tres-defeicitaires-le-cas-daurillac',
+    ministryTag: 'Transport',
+  },
+
+  // === AMÉNAGEMENT ===
+  {
+    title: 'Doublons administratifs territoriaux (Cerema, ANCT, Ademe) : 600 M\u20ac/an',
+    description:
+      'La non-fusion de ces trois agences d\'ingénierie territoriale (2 400 + 360 + 1 197 agents) maintient un surcoût structurel. L\'Ademe fait notamment doublon avec les 7 800 agents des DREAL.',
+    amount: 600_000_000,
+    sourceUrl: 'https://www.ifrap.org/etat-et-collectivites/agnes-verdier-molinie-parmi-les-agences-de-letat-les-doublons-et-les-instances-inutiles-ont-la-peau-dure',
+    ministryTag: 'Am\u00e9nagement',
+  },
+  {
+    title: 'Surcoûts et lignes inutiles du Grand Paris Express : 3 Mds\u20ac de dérive',
+    description:
+      'Les Lignes 17 Nord et 18 Ouest sont dénoncées comme des gaspillages détruisant des terres agricoles, basés sur des prévisions de trafic surévaluées. Qualifié d\'« éléphant blanc ».',
+    amount: 3_000_000_000,
+    sourceUrl: 'https://www.colos.info/actualites/8-grand-paris',
+    ministryTag: 'Am\u00e9nagement',
+  },
+
+  // === DÉFENSE ===
+  {
+    title: 'Arriérés de paiement de l\'État à Naval Group : 836 M\u20ac',
+    description:
+      'L\'État retarde ses paiements contractuels massifs. L\'industriel naval doit autofinancer la production, ce qui génère des surcoûts sur le prix des sous-marins et frégates.',
+    amount: 836_000_000,
+    sourceUrl: 'https://www.assemblee-nationale.fr/dyn/17/rapports/cion_def/l17b2048-tv_rapport-avis.pdf',
+    ministryTag: 'D\u00e9fense',
+  },
+  {
+    title: 'Reports de charges impayés à l\'OCCAr : 380 M\u20ac',
+    description:
+      'Défaut de paiement de la France à l\'organisme européen de coopération en matière d\'armement. Une pratique qui mine la confiance des partenaires de défense.',
+    amount: 380_000_000,
+    sourceUrl: 'https://www.assemblee-nationale.fr/dyn/17/rapports/cion_def/l17b2048-tv_rapport-avis.pdf',
+    ministryTag: 'D\u00e9fense',
+  },
+  {
+    title: 'Surcoûts explosifs du MCO dus aux retards industriels : 1,879 Md\u20ac',
+    description:
+      'Les retards de livraison de nouveaux équipements (SLAM-F, Patrouilleurs) obligent à réparer des matériels obsolètes. Les crédits d\'entretien bondissent de 105 % (dépense subie).',
+    amount: 1_879_000_000,
+    sourceUrl: 'https://www.assemblee-nationale.fr/dyn/17/rapports/cion_def/l17b2048-tv_rapport-avis.pdf',
+    ministryTag: 'D\u00e9fense',
+  },
+
+  // === AGRICULTURE ===
+  {
+    title: 'Subventions agricoles défavorables à l\'environnement : 3,8 Mds\u20ac/an',
+    description:
+      'Dépenses (exonérations sur les carburants fossiles et aides PAC couplées à l\'élevage) contredisant directement les objectifs climatiques de l\'État. 7 % des 53,6 Mds\u20ac du système alimentaire.',
+    amount: 3_800_000_000,
+    sourceUrl: 'https://www.i4ce.org/wp-content/uploads/2024/09/Les-financements-publics-du-systeme-alimentaire-francais.pdf',
+    ministryTag: 'Agriculture',
+  },
+  {
+    title: 'Budget de l\'Agence Bio en doublon : 15 M\u20ac/an',
+    description:
+      'Agence ciblée par une recommandation de suppression par le Sénat. Ses prérogatives font doublon avec celles de l\'administration centrale et des Chambres d\'agriculture.',
+    amount: 15_000_000,
+    sourceUrl: 'https://www.senat.fr/fileadmin/Illustrations/Controle/Structures_temporaires/2024-2025/CE-Agences_Etat/TOME_I_-_Rapport_CE_Agences.pdf',
+    ministryTag: 'Agriculture',
+  },
+
+  // === RECHERCHE ===
+  {
+    title: 'Inefficience du Crédit Impôt Recherche (CIR) : 7 Mds\u20ac/an d\'effet d\'aubaine',
+    description:
+      'Dépense fiscale majeure accusée d\'effets d\'aubaine. Dépourvu de conditionnalité, de grands groupes captent l\'aide tout en supprimant des emplois scientifiques en France.',
+    amount: 7_000_000_000,
+    sourceUrl: 'https://www.ofce.sciences-po.fr/blog2024/fr/2025/20250115_ES/',
+    ministryTag: 'Recherche',
+  },
+
+  // === ENVIRONNEMENT ===
+  {
+    title: 'Budget de communication de l\'Ademe : 150 M\u20ac/an contestés',
+    description:
+      'Dépense vivement contestée au Parlement pour financer des campagnes publicitaires jugées inefficaces. Le Parlement réclame la réinternalisation de ces missions.',
+    amount: 150_000_000,
+    sourceUrl: 'https://www.assemblee-nationale.fr/17/cr-dvp/25-26/c2526011.asp',
+    ministryTag: 'Environnement',
+  },
+
+  // === CULTURE ===
+  {
+    title: 'Dotation surdimensionnée de France Télévisions : 2,568 Mds\u20ac/an',
+    description:
+      'Dépense critiquée par le Sénat en raison de la lenteur du processus de fusion avec Radio France et des refus de mutualisation des rédactions et fonctions supports.',
+    amount: 2_568_000_000,
+    sourceUrl: 'https://www.senat.fr/rap/a23-133-41/a23-133-41_mono.html',
+    ministryTag: 'Culture',
+  },
+  {
+    title: 'Subvention inutile au dispositif Pass Culture : 210 M\u20ac/an',
+    description:
+      'Effet d\'aubaine : l\'aide finance massivement la consommation de biens grand public (mangas, jeux vidéo) chez les grands distributeurs plutôt que la découverte artistique. Suppression recommandée par le Sénat.',
+    amount: 210_000_000,
+    sourceUrl: 'https://www.senat.fr/fileadmin/Illustrations/Controle/Structures_temporaires/2024-2025/CE-Agences_Etat/TOME_I_-_Rapport_CE_Agences.pdf',
+    ministryTag: 'Culture',
+  },
+
+  // === TRAVAIL ===
+  {
+    title: 'Fraudes et siphonnage du Compte Personnel de Formation (CPF) : 500 M\u20ac/an',
+    description:
+      'Sur les 2 Md\u20ac annuels du CPF, des sommes colossales ont été détournées (49 000 fraudes identifiées) par des sociétés écrans en raison d\'une sécurisation défaillante au lancement.',
+    amount: 500_000_000,
+    sourceUrl: 'https://www.caissedesdepots.fr/sites/cdc.fr/files/2025-11/Mon%20Compte%20Formation%20_%20la%20Caisse%20des%20D%C3%A9p%C3%B4ts%20publie%20le%20rapport%20annuel%20de%20gestion%202024.pdf',
+    ministryTag: 'Travail',
+  },
+
+  // === ÉDUCATION ===
+  {
+    title: 'Généralisation aveugle du Service National Universel (SNU) : 200 M\u20ac/an',
+    description:
+      'L\'État tente de généraliser ce service sans disposer de suivi budgétaire exhaustif des coûts complets par jeune. La Cour des comptes exige une remise à plat de ce projet.',
+    amount: 200_000_000,
+    sourceUrl: 'https://www.ccomptes.fr/sites/default/files/2024-09/20240913-SNU.pdf',
+    ministryTag: '\u00c9ducation',
+  },
+
+  // === COLLECTIVITÉS ===
+  {
+    title: 'Dérapage du déficit de fonctionnement des collectivités (APUL) : 16,7 Mds\u20ac',
+    description:
+      'Les collectivités locales refusent d\'appliquer l\'objectif de baisse de 0,5 % de leurs dépenses fixé par la LPFP, creusant dangereusement le besoin de financement de la Nation.',
+    amount: 16_700_000_000,
+    sourceUrl: 'https://www.agence-france-locale.fr/actualite/decryptage-face-a-des-comptes-publics-sous-pression-en-2024-quelle-contribution-des-collectivites-locales-a-laccroissement-du-deficit-et-de-la-dette/',
+    ministryTag: 'Collectivit\u00e9s',
+  },
+  {
+    title: 'Saupoudrage des subventions associatives de Paris : 1,8 Md\u20ac sur le mandat',
+    description:
+      'Volume cumulé des subventions distribuées par l\'exécutif parisien à des associations. Dépense décriée pour son manque de contrôle de performance et ses fins clientélistes.',
+    amount: 1_800_000_000,
+    sourceUrl: 'https://contribuablesassocies.org/categories/actualites/gaspillages-publics/',
+    ministryTag: 'Collectivit\u00e9s',
+  },
+  {
+    title: 'Dépenses d\'autopromotion des exécutifs locaux : 1 Md\u20ac/an',
+    description:
+      'Coût évalué des magazines municipaux et campagnes marketing. L\'Observatoire de l\'Éthique Publique dénonce l\'utilisation des deniers publics pour la promotion politique pré-électorale.',
+    amount: 1_000_000_000,
+    sourceUrl: 'https://www.observatoireethiquepublique.com/nos-propositions/notes/mieux-encadrer-les-depenses-de-communication-des-collectivites-territoriales.html',
+    ministryTag: 'Collectivit\u00e9s',
+  },
 ];
 
 function generateSlug(title: string): string {

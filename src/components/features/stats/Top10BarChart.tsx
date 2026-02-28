@@ -2,6 +2,7 @@
 
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { formatEUR, formatCompactEUR, truncate } from '@/lib/utils/format';
+import { useIsMobile } from '@/lib/hooks/useIsMobile';
 
 interface Top10BarChartProps {
   data: Array<{
@@ -13,19 +14,20 @@ interface Top10BarChartProps {
 }
 
 export function Top10BarChart({ data }: Top10BarChartProps) {
+  const isMobile = useIsMobile();
   if (data.length === 0) return null;
 
   const chartData = data.map((item) => ({
     ...item,
-    shortTitle: truncate(item.title, 20),
+    shortTitle: truncate(item.title, isMobile ? 12 : 20),
   }));
 
   return (
-    <div className="rounded-xl border border-border-default bg-surface-secondary p-4">
+    <div className="overflow-hidden rounded-xl border border-border-default bg-surface-secondary p-4">
       <h2 className="mb-4 text-base font-semibold text-text-primary">
         Top 10 — Plus gros montants
       </h2>
-      <ResponsiveContainer width="100%" height={280}>
+      <ResponsiveContainer width="100%" height={isMobile ? 220 : 280}>
         <BarChart data={chartData} layout="vertical" margin={{ left: 0, right: 10 }}>
           <XAxis
             type="number"
@@ -37,8 +39,8 @@ export function Top10BarChart({ data }: Top10BarChartProps) {
           <YAxis
             type="category"
             dataKey="shortTitle"
-            width={130}
-            tick={{ fill: 'var(--color-text-secondary)', fontSize: 9 }}
+            width={isMobile ? 75 : 130}
+            tick={{ fill: 'var(--color-text-secondary)', fontSize: isMobile ? 8 : 9 }}
             axisLine={false}
             tickLine={false}
           />
@@ -49,8 +51,13 @@ export function Top10BarChart({ data }: Top10BarChartProps) {
               borderRadius: '8px',
               color: 'var(--color-text-primary)',
               fontSize: '12px',
+              maxWidth: isMobile ? '200px' : undefined,
+              whiteSpace: isMobile ? 'normal' as const : undefined,
             }}
-            formatter={(value) => formatEUR(Number(value))}
+            labelStyle={{ color: 'var(--color-text-primary)' }}
+            itemStyle={{ color: 'var(--color-text-primary)' }}
+            wrapperStyle={{ zIndex: 40 }}
+            formatter={(value) => [isMobile ? formatCompactEUR(Number(value)) : formatEUR(Number(value)), 'Montant']}
             labelFormatter={(label) => {
               const item = chartData.find((d) => d.shortTitle === String(label));
               return item?.title ?? String(label);

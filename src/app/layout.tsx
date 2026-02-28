@@ -22,6 +22,10 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap',
 });
 
+export const viewport = {
+  viewportFit: 'cover' as const,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
   title: {
@@ -69,7 +73,7 @@ export default function RootLayout({
           </a>
           <DesktopNav />
           <MobileHeader />
-          <div className="min-h-screen pb-20 md:pb-0">{children}</div>
+          <div className="min-h-[calc(100dvh-3rem)] pb-20 md:min-h-screen md:pb-0">{children}</div>
           <Footer />
           <MobileTabBar />
           <WelcomePromptWrapper />

@@ -1,7 +1,8 @@
 'use client';
 
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
-import { formatEUR } from '@/lib/utils/format';
+import { formatEUR, formatCompactEUR } from '@/lib/utils/format';
+import { useIsMobile } from '@/lib/hooks/useIsMobile';
 
 interface CategoryPieChartProps {
   data: Array<{
@@ -19,6 +20,7 @@ const COLORS = [
 ];
 
 export function CategoryPieChart({ data }: CategoryPieChartProps) {
+  const isMobile = useIsMobile();
   if (data.length === 0) return null;
 
   // Sort by amount descending and take top 8, merge rest into "Autres"
@@ -30,11 +32,11 @@ export function CategoryPieChart({ data }: CategoryPieChartProps) {
     : top;
 
   return (
-    <div className="rounded-xl border border-border-default bg-surface-secondary p-4">
+    <div className="overflow-hidden rounded-xl border border-border-default bg-surface-secondary p-4">
       <h2 className="mb-4 text-base font-semibold text-text-primary">
         Repartition par categorie
       </h2>
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={isMobile ? 220 : 300}>
         <PieChart>
           <Pie
             data={chartData}
@@ -42,12 +44,12 @@ export function CategoryPieChart({ data }: CategoryPieChartProps) {
             nameKey="category"
             cx="50%"
             cy="45%"
-            innerRadius={55}
-            outerRadius={100}
+            innerRadius={isMobile ? 40 : 55}
+            outerRadius={isMobile ? 70 : 100}
             paddingAngle={2}
             stroke="var(--color-surface-secondary)"
             strokeWidth={2}
-            label={({ name, percent }: { name?: string; percent?: number }) =>
+            label={isMobile ? false : ({ name, percent }: { name?: string; percent?: number }) =>
               (percent ?? 0) > 0.05 ? `${name ?? ''} ${((percent ?? 0) * 100).toFixed(0)}%` : ''
             }
             labelLine={false}
@@ -64,7 +66,10 @@ export function CategoryPieChart({ data }: CategoryPieChartProps) {
               color: 'var(--color-text-primary)',
               fontSize: '12px',
             }}
-            formatter={(value) => formatEUR(Number(value))}
+            labelStyle={{ color: 'var(--color-text-primary)' }}
+            itemStyle={{ color: 'var(--color-text-primary)' }}
+            wrapperStyle={{ zIndex: 40 }}
+            formatter={(value) => [isMobile ? formatCompactEUR(Number(value)) : formatEUR(Number(value)), 'Montant']}
           />
         </PieChart>
       </ResponsiveContainer>

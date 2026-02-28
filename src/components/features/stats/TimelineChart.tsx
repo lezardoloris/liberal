@@ -2,6 +2,7 @@
 
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 import { formatEUR, formatCompactEUR } from '@/lib/utils/format';
+import { useIsMobile } from '@/lib/hooks/useIsMobile';
 
 interface TimelineChartProps {
   data: Array<{
@@ -12,14 +13,15 @@ interface TimelineChartProps {
 }
 
 export function TimelineChart({ data }: TimelineChartProps) {
+  const isMobile = useIsMobile();
   if (data.length === 0) return null;
 
   return (
-    <div className="rounded-xl border border-border-default bg-surface-secondary p-4">
+    <div className="overflow-hidden rounded-xl border border-border-default bg-surface-secondary p-4">
       <h2 className="mb-4 text-base font-semibold text-text-primary">
         Evolution dans le temps
       </h2>
-      <ResponsiveContainer width="100%" height={280}>
+      <ResponsiveContainer width="100%" height={isMobile ? 220 : 280}>
         <AreaChart data={data} margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
           <defs>
             <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
@@ -39,7 +41,7 @@ export function TimelineChart({ data }: TimelineChartProps) {
             tick={{ fill: 'var(--color-text-muted)', fontSize: 10 }}
             axisLine={false}
             tickLine={false}
-            width={90}
+            width={isMobile ? 60 : 90}
           />
           <Tooltip
             contentStyle={{
@@ -49,8 +51,11 @@ export function TimelineChart({ data }: TimelineChartProps) {
               color: 'var(--color-text-primary)',
               fontSize: '12px',
             }}
+            labelStyle={{ color: 'var(--color-text-primary)' }}
+            itemStyle={{ color: 'var(--color-text-primary)' }}
+            wrapperStyle={{ zIndex: 40 }}
             formatter={(value, name) => [
-              formatEUR(Number(value)),
+              isMobile ? formatCompactEUR(Number(value)) : formatEUR(Number(value)),
               name === 'cumulativeAmount' ? 'Cumul' : 'Signalements',
             ]}
           />

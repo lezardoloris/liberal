@@ -21,7 +21,7 @@ export default function MobileTabBar() {
   ];
 
   return (
-    <nav className="border-border-default bg-surface-primary/80 fixed right-0 bottom-0 left-0 z-50 border-t backdrop-blur-sm md:hidden">
+    <nav className="border-border-default bg-surface-primary/80 fixed right-0 bottom-0 left-0 z-50 border-t backdrop-blur-sm pb-[env(safe-area-inset-bottom)] md:hidden">
       <div className="flex items-center justify-around">
         {tabs.map((tab) => {
           const isActive = pathname?.startsWith(tab.href);

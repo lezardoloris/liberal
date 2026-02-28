@@ -50,3 +50,5 @@ _bmad-output/
 .github/agents/
 .github/prompts/
 .github/copilot-instructions.md
+
+.playwright-mcp/

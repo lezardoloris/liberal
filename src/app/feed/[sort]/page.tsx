@@ -74,7 +74,7 @@ export default async function FeedPage({ params, searchParams }: FeedPageProps) 
   ]);
 
   return (
-    <main id="main-content" className="mx-auto max-w-3xl px-4 pb-20 md:pb-6">
+    <main id="main-content" className="mx-auto max-w-3xl px-4 pt-4 pb-20 md:pt-6 md:pb-6">
       <HeroSection stats={stats} />
 
       <FeedSortTabs activeSort={sort} />

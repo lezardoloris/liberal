@@ -3,7 +3,13 @@
 import Link from 'next/link';
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
-import { formatEUR, formatEURPrecise, formatRelativeTime, truncate } from '@/lib/utils/format';
+import {
+  formatEUR,
+  formatCompactEUR,
+  formatEURPrecise,
+  formatRelativeTime,
+  truncate,
+} from '@/lib/utils/format';
 import { VoteButtonInline } from '@/components/features/voting/VoteButtonInline';
 import { ShareButton } from '@/components/features/sharing/ShareButton';
 import { SourceBadge } from '@/components/features/sources/SourceBadge';
@@ -155,8 +161,8 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
 
           <div className="flex-1" />
 
-          <span className="bg-chainsaw-red/10 text-chainsaw-red inline-flex items-center rounded-full px-3 py-1 text-sm font-black tabular-nums">
-            {formatEUR(submission.amount)}
+          <span className="bg-chainsaw-red/10 text-chainsaw-red inline-flex items-center rounded-full px-2 py-0.5 text-xs font-black tabular-nums sm:px-3 sm:py-1 sm:text-sm">
+            {formatCompactEUR(Number(submission.amount))}
           </span>
         </div>
       </div>

@@ -1,11 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { FileText, ArrowUpDown, Zap, Flame, Shield } from 'lucide-react';
+import { FileText, ArrowUpDown, Flame, Shield } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import type { UserProfile } from '@/types/user';
-import { LevelBadge } from '@/components/features/gamification/LevelBadge';
+import { ChainsawIcon } from '@/components/ui/icons/ChainsawIcon';
 
 interface ProfileHeaderProps {
   profile: UserProfile;
@@ -39,43 +39,27 @@ export default function ProfileHeader({
           </AvatarFallback>
         </Avatar>
 
-        <div className="flex flex-1 flex-col items-center gap-2 sm:items-start">
-          <div className="flex items-center gap-2">
-            <h1 className="font-display text-2xl font-bold text-text-primary">
-              {profile.resolvedName}
-            </h1>
-            <LevelBadge level={profile.level} title={profile.levelTitle} size="md" />
-          </div>
+        <div className="flex flex-1 flex-col items-center gap-1.5 sm:items-start">
+          <h1 className="font-display text-2xl font-bold text-text-primary">
+            {profile.resolvedName}
+          </h1>
 
-          {isOwnProfile && profile.maskedEmail && (
-            <p className="text-sm text-text-muted">{profile.maskedEmail}</p>
-          )}
-
-          <p className="text-sm text-text-secondary">
-            Membre depuis {memberSince}
-          </p>
-
-          {/* XP & Streak row */}
-          <div className="flex items-center gap-4 mt-1">
-            <div className="flex items-center gap-1.5">
-              <Zap className="size-4 text-chainsaw-red" />
-              <span className="text-sm font-bold tabular-nums text-text-primary">
-                {profile.totalXp.toLocaleString('fr-FR')} XP
-              </span>
-            </div>
-
-            {/* XP progress bar */}
-            <div className="relative h-2 w-24 overflow-hidden rounded-full bg-surface-elevated">
-              <div
-                className="absolute inset-y-0 left-0 rounded-full bg-linear-to-r from-chainsaw-red to-red-400"
-                style={{ width: `${profile.progressPercent}%` }}
-              />
-            </div>
-
+          {/* Subtle XP line with chainsaw icon */}
+          <div className="flex items-center gap-2 text-sm">
+            <ChainsawIcon className="size-4 text-chainsaw-red" />
+            <span className="font-semibold tabular-nums text-text-primary">
+              {profile.totalXp.toLocaleString('fr-FR')}
+            </span>
+            <span className="text-text-muted">pts</span>
+            <span className="text-text-muted/40">·</span>
+            <span className="text-text-secondary">
+              Nv.{profile.level} {profile.levelTitle}
+            </span>
             {profile.currentStreak > 0 && (
-              <div className="flex items-center gap-1">
+              <>
+                <span className="text-text-muted/40">·</span>
                 <Flame
-                  className={`size-4 ${
+                  className={`size-3.5 ${
                     profile.currentStreak >= 30
                       ? 'text-orange-400'
                       : profile.currentStreak >= 7
@@ -83,16 +67,32 @@ export default function ProfileHeader({
                         : 'text-text-muted'
                   }`}
                 />
-                <span className="text-sm font-bold tabular-nums text-text-primary">
+                <span className="tabular-nums text-text-secondary">
                   {profile.currentStreak}j
                 </span>
-              </div>
+              </>
             )}
           </div>
 
+          {/* Progress bar — thin, subtle */}
+          <div className="relative h-1 w-40 overflow-hidden rounded-full bg-surface-elevated">
+            <div
+              className="absolute inset-y-0 left-0 rounded-full bg-chainsaw-red/80"
+              style={{ width: `${profile.progressPercent}%` }}
+            />
+          </div>
+
+          {isOwnProfile && profile.maskedEmail && (
+            <p className="text-xs text-text-muted">{profile.maskedEmail}</p>
+          )}
+
+          <p className="text-xs text-text-muted">
+            Membre depuis {memberSince}
+          </p>
+
           {/* Badges */}
           {profile.badges.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mt-1">
+            <div className="flex flex-wrap gap-1.5 mt-0.5">
               {profile.badges.map((badge) => (
                 <Badge
                   key={badge.slug}
@@ -107,7 +107,7 @@ export default function ProfileHeader({
             </div>
           )}
 
-          <div className="flex gap-3 mt-1">
+          <div className="flex gap-3 mt-0.5">
             <Badge
               variant="outline"
               className="gap-1 border-border-default text-text-secondary"

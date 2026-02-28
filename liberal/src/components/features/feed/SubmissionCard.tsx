@@ -87,12 +87,12 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
             <h3 className="text-base font-semibold leading-snug text-text-primary line-clamp-2 transition-colors group-hover:text-chainsaw-red md:text-lg">
               {truncate(submission.title, 120)}
             </h3>
+            {submission.description && (
+              <p className="mt-1 text-sm leading-relaxed text-text-secondary line-clamp-2">
+                {truncate(submission.description, 200)}
+              </p>
+            )}
           </Link>
-          {submission.description && (
-            <p className="mt-1 text-sm leading-relaxed text-text-secondary line-clamp-2">
-              {truncate(submission.description, 200)}
-            </p>
-          )}
         </div>
 
         {/* Row 3: Action Bar (Reddit-style) */}

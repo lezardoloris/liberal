@@ -24,7 +24,7 @@ export function CategoryFilter({
     };
 
     return (
-        <div className="relative mb-4">
+        <div className="relative mb-4 overflow-hidden">
             {/* Fade edges */}
             <div
                 className="pointer-events-none absolute left-0 top-0 z-10 h-full w-6 bg-gradient-to-r from-surface-primary to-transparent"

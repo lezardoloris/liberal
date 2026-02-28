@@ -33,7 +33,7 @@ export default function DataStatusTable({
   denominators,
 }: DataStatusTableProps) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-border-default">
+    <div className="max-w-full overflow-x-auto rounded-lg border border-border-default">
       <table className="w-full text-sm">
         <caption className="sr-only">
           Statut des donnees utilisees pour les calculs Cout pour Nicolas
@@ -42,37 +42,37 @@ export default function DataStatusTable({
           <tr className="border-b border-border-default bg-surface-secondary">
             <th
               scope="col"
-              className="px-4 py-3 text-left font-display font-medium text-text-primary"
+              className="px-2 py-3 font-display font-medium text-text-primary text-left md:px-4"
             >
               Donnee
             </th>
             <th
               scope="col"
-              className="px-4 py-3 text-right font-display font-medium text-text-primary"
+              className="px-2 py-3 font-display font-medium text-text-primary text-right md:px-4"
             >
               Valeur actuelle
             </th>
             <th
               scope="col"
-              className="px-4 py-3 text-left font-display font-medium text-text-primary"
+              className="hidden px-4 py-3 text-left font-display font-medium text-text-primary md:table-cell"
             >
               Source
             </th>
             <th
               scope="col"
-              className="px-4 py-3 text-left font-display font-medium text-text-primary"
+              className="hidden px-4 py-3 text-left font-display font-medium text-text-primary md:table-cell"
             >
               Derniere mise a jour
             </th>
             <th
               scope="col"
-              className="px-4 py-3 text-left font-display font-medium text-text-primary"
+              className="hidden px-4 py-3 text-left font-display font-medium text-text-primary md:table-cell"
             >
               Prochaine mise a jour
             </th>
             <th
               scope="col"
-              className="px-4 py-3 text-center font-display font-medium text-text-primary"
+              className="px-2 py-3 font-display font-medium text-text-primary text-center md:px-4"
             >
               Statut
             </th>
@@ -98,7 +98,7 @@ export default function DataStatusTable({
                   index % 2 === 1 ? 'bg-surface-secondary/50' : ''
                 }`}
               >
-                <td className="px-4 py-3">
+                <td className="px-2 py-3 md:px-4">
                   <div className="font-medium text-text-primary">
                     {labelInfo.label}
                   </div>
@@ -106,10 +106,10 @@ export default function DataStatusTable({
                     {labelInfo.unit}
                   </div>
                 </td>
-                <td className="px-4 py-3 text-right font-mono text-text-primary">
+                <td className="px-2 py-3 text-right font-mono text-text-primary md:px-4">
                   {formatDenominatorValue(denom.value, labelInfo.formatType)}
                 </td>
-                <td className="px-4 py-3">
+                <td className="hidden px-4 py-3 md:table-cell">
                   <a
                     href={denom.source_url}
                     target="_blank"
@@ -123,13 +123,13 @@ export default function DataStatusTable({
                     <ExternalLink className="h-3 w-3 flex-shrink-0" />
                   </a>
                 </td>
-                <td className="px-4 py-3 text-text-secondary">
+                <td className="hidden px-4 py-3 text-text-secondary md:table-cell">
                   {formatFrenchDate(denom.last_updated)}
                 </td>
-                <td className="px-4 py-3 text-text-secondary">
+                <td className="hidden px-4 py-3 text-text-secondary md:table-cell">
                   {freshness.nextUpdate}
                 </td>
-                <td className="px-4 py-3 text-center">
+                <td className="px-2 py-3 text-center md:px-4">
                   <FreshnessBadge
                     status={freshness.status}
                     label={freshness.label}

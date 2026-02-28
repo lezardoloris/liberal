@@ -5,6 +5,7 @@ import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
 import {
   formatEUR,
+  formatCompactEUR,
   formatEURPrecise,
   formatRelativeTime,
   truncate,
@@ -13,7 +14,7 @@ import { VoteButtonInline } from '@/components/features/voting/VoteButtonInline'
 import { ShareButton } from '@/components/features/sharing/ShareButton';
 import { SourceBadge } from '@/components/features/sources/SourceBadge';
 import { PinnedNote } from '@/components/features/notes/PinnedNote';
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, User } from 'lucide-react';
 import { getCategoryDef } from '@/lib/constants/categories';
 import { useShare } from '@/hooks/use-share';
 import type { SubmissionCardData } from '@/types/submission';
@@ -166,15 +167,17 @@ export function SubmissionCard({ submission, index = 0 }: SubmissionCardProps) {
 
           <div className="flex-1" />
 
-          {submission.costPerTaxpayer && (
-            <span className="inline-flex items-center rounded-full bg-warning/15 px-2.5 py-1 text-xs font-bold tabular-nums text-warning">
-              {formatEURPrecise(submission.costPerTaxpayer)}/citoyen
+          <div className="flex flex-col items-center gap-1 sm:flex-row">
+            <span className="inline-flex items-center rounded-full bg-chainsaw-red/10 px-2 py-0.5 text-xs font-black tabular-nums text-chainsaw-red sm:px-3 sm:py-1 sm:text-sm">
+              {formatCompactEUR(Number(submission.amount))}
             </span>
-          )}
 
-          <span className="inline-flex items-center rounded-full bg-chainsaw-red/10 px-3 py-1 text-sm font-black tabular-nums text-chainsaw-red">
-            {formatEUR(submission.amount)}
-          </span>
+            {submission.costPerTaxpayer && (
+              <span className="inline-flex items-center gap-0.5 rounded-full bg-warning/15 px-2 py-0.5 text-[10px] font-bold tabular-nums text-warning sm:px-2.5 sm:py-1 sm:text-xs">
+                {formatEURPrecise(submission.costPerTaxpayer)} / <User className="size-3" aria-label="par citoyen" />
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </motion.article>

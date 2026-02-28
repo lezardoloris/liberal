@@ -59,7 +59,7 @@ export default function FormulaSection({
 
         {/* Source */}
         {sourceName && sourceUrl && (
-          <div className="flex items-center gap-2 text-sm">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
             <span className="text-text-muted">Source :</span>
             <a
               href={sourceUrl}
@@ -68,7 +68,7 @@ export default function FormulaSection({
               className="inline-flex items-center gap-1 text-chainsaw-red hover:underline"
               aria-label={`Source : ${sourceName} (ouvre dans un nouvel onglet)`}
             >
-              <span className="max-w-[300px] truncate">{sourceName}</span>
+              <span className="max-w-[200px] truncate sm:max-w-[300px]">{sourceName}</span>
               <ExternalLink className="h-3 w-3 flex-shrink-0" />
             </a>
           </div>
